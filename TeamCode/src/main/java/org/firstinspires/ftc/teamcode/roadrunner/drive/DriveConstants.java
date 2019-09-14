@@ -19,7 +19,7 @@ public class DriveConstants {
      */
     private static final MotorConfigurationType MOTOR_CONFIG =
             MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
-    private static final double TICKS_PER_REV = MOTOR_CONFIG.getTicksPerRev();
+    private static final double TICKS_PER_REV = 537.6;
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -31,7 +31,7 @@ public class DriveConstants {
      */
     public static double WHEEL_RADIUS = 2;
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 1;
+    public static double TRACK_WIDTH = 34;
 
     /*
      * These are the feedforward parameters used to model the drive motor behavior. If you are using
@@ -66,6 +66,6 @@ public class DriveConstants {
     }
 
     public static double getMaxRpm() {
-        return MOTOR_CONFIG.getMaxRPM();
+        return 312;
     }
 }
