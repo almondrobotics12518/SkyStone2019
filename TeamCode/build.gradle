@@ -16,4 +16,5 @@ apply from: '../build.common.gradle'
 
 dependencies{
     implementation 'com.acmerobotics.dashboard:dashboard:0.3.4'
+    implementation 'org.openftc:rev-extensions-2:1.2'
 }
