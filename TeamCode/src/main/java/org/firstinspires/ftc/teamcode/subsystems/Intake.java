@@ -10,7 +10,7 @@ public class Intake {
     DcMotor intakeRight;
 
 
-    public void intake(HardwareMap hardwareMap) {
+    public Intake(HardwareMap hardwareMap) {
             intakeLeft = hardwareMap.dcMotor.get("IntakeLeft");
             intakeRight = hardwareMap.dcMotor.get("IntakeRight");
 

@@ -10,6 +10,10 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.localizer.NewLocalizer;
+import org.firstinspires.ftc.teamcode.roadrunner.util.AxesSigns;
+import org.firstinspires.ftc.teamcode.roadrunner.util.BNO055IMUUtil;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxModuleUtil;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxOptimizedI2cFactory;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -27,6 +31,7 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.enc
  */
 public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
     private ExpansionHubEx hub;
+    private ExpansionHubEx hub2;
     private List<ExpansionHubMotor> motors, leftMotors, rightMotors;
     private BNO055IMU imu;
 
@@ -40,14 +45,19 @@ public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
         // if your motors are split between hubs, **you will need to add another bulk read**
         hub = hardwareMap.get(ExpansionHubEx.class, "hub");
 
-        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
+
+        /*imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
+        while(!imu.isGyroCalibrated()){
+        }*/
 
         // TODO: if your hub is mounted vertically, remap the IMU axes so that the z-axis points
         // upward (normal to the floor) using a command like the following:
         // BNO055IMUUtil.remapAxes(imu, AxesOrder.XYZ, AxesSigns.NPN);
+
+
 
         // add/remove motors depending on your robot (e.g., 6WD)
         ExpansionHubMotor leftFront = hardwareMap.get(ExpansionHubMotor.class, "leftFront");
@@ -75,6 +85,7 @@ public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
 
         // TODO: if desired, use setLocalizer() to change the localization method
         // for instance, setLocalizer(new ThreeTrackingWheelLocalizer(...));
+        setLocalizer(new NewLocalizer(hardwareMap));
 
     }
 
@@ -124,8 +135,8 @@ public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
 
     @Override
     public double getRawExternalHeading() {
-        return imu.getAngularOrientation().firstAngle;
+        return getLocalizer().getPoseEstimate().getHeading();
     }
 
-    public double getHeading(){ return imu.getAngularOrientation().firstAngle; }
+
 }

@@ -198,6 +198,8 @@ public abstract class SampleTankDriveBase extends TankDrive {
         return mode != Mode.IDLE;
     }
 
+    public double getHeading(){ return getRawExternalHeading() + Math.PI; }
+
     public abstract PIDCoefficients getPIDCoefficients(DcMotor.RunMode runMode);
 
     public abstract void setPIDCoefficients(DcMotor.RunMode runMode, PIDCoefficients coefficients);

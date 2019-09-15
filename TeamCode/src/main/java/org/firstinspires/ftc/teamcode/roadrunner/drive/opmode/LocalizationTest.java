@@ -25,7 +25,7 @@ public class LocalizationTest extends LinearOpMode {
         while (!isStopRequested()) {
             drive.setDrivePower(new Pose2d(
                     -gamepad1.left_stick_y,
-                    -gamepad1.left_stick_x,
+                    0,
                     -gamepad1.right_stick_x
             ));
 
@@ -34,7 +34,7 @@ public class LocalizationTest extends LinearOpMode {
             Pose2d poseEstimate = drive.getPoseEstimate();
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
-            telemetry.addData("heading", poseEstimate.getHeading());
+            telemetry.addData("heading", drive.getHeading());
             telemetry.update();
         }
     }
