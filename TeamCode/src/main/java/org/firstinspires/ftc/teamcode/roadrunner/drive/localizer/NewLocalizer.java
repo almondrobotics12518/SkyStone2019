@@ -1,14 +1,12 @@
 package org.firstinspires.ftc.teamcode.roadrunner.drive.localizer;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
-import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.localization.Localizer;
 import com.acmerobotics.roadrunner.localization.TwoTrackingWheelLocalizer;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import android.support.annotation.NonNull;
-
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxOptimizedI2cFactory;
@@ -31,8 +29,6 @@ public class NewLocalizer implements Localizer {
     private List<Double> lastWheelPositions = Arrays.asList(0.0,0.0);
     private List<Double> currentWheelPositions = Arrays.asList(0.0,0.0);
     private double lastHeading=0, currentHeading=0;
-    private double deltaHeading;
-    private Vector2d deltaRobotPose;
     private double deltaX, deltaY;
     private Pose2d poseEstimate = new Pose2d(0,0,0),lastPoseEstimate=new Pose2d(0,0,0);
 
@@ -83,19 +79,14 @@ public class NewLocalizer implements Localizer {
         currentWheelPositions = getWheelPositions();
         double distance = (currentWheelPositions.get(0)-lastWheelPositions.get(0)+currentWheelPositions.get(1)-lastWheelPositions.get(1))/2;
 
-        deltaHeading = currentHeading - lastHeading;
-
-        double radius = distance/deltaHeading;
-
-        deltaRobotPose = new Vector2d(radius-(Math.cos(deltaHeading)*radius),Math.sin(deltaHeading)*radius);
-
-        deltaRobotPose = deltaRobotPose.rotated(lastHeading);
+        deltaX = Math.cos(lastHeading)*distance;
+        deltaY = Math.sin(lastHeading)*distance;
 
         poseEstimate = new Pose2d(
-                lastPoseEstimate.getX()+deltaRobotPose.getX(),
-                lastPoseEstimate.getY()+deltaRobotPose.getY(),
+                lastPoseEstimate.getX()+deltaX,
+                lastPoseEstimate.getY()+deltaY,
                 currentHeading
-                );
+        );
         lastWheelPositions = currentWheelPositions;
         lastHeading = currentHeading;
         lastPoseEstimate = poseEstimate;
