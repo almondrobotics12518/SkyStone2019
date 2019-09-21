@@ -37,8 +37,6 @@ public class BlueDepotSide extends AlmondLinear {
 
         turnTo(Math.PI/2);
 
-        
-
         drive.followTrajectory(second);
 
         drive.followTrajectorySync(drive.trajectoryBuilder()
