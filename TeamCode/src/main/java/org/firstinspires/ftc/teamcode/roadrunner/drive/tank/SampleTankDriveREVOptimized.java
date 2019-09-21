@@ -32,8 +32,9 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.enc
 public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
     private ExpansionHubEx hub;
     private ExpansionHubEx hub2;
-    private List<ExpansionHubMotor> motors, leftMotors, rightMotors;
+    public List<ExpansionHubMotor> motors, leftMotors, rightMotors;
     private BNO055IMU imu;
+    public ExpansionHubMotor leftRear, leftFront, rightRear, rightFront;
 
     public SampleTankDriveREVOptimized(HardwareMap hardwareMap) {
         super();
@@ -60,10 +61,10 @@ public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
 
 
         // add/remove motors depending on your robot (e.g., 6WD)
-        ExpansionHubMotor leftFront = hardwareMap.get(ExpansionHubMotor.class, "leftFront");
-        ExpansionHubMotor leftRear = hardwareMap.get(ExpansionHubMotor.class, "leftRear");
-        ExpansionHubMotor rightRear = hardwareMap.get(ExpansionHubMotor.class, "rightRear");
-        ExpansionHubMotor rightFront = hardwareMap.get(ExpansionHubMotor.class, "rightFront");
+        leftFront = hardwareMap.get(ExpansionHubMotor.class, "leftFront");
+        leftRear = hardwareMap.get(ExpansionHubMotor.class, "leftRear");
+        rightRear = hardwareMap.get(ExpansionHubMotor.class, "rightRear");
+        rightFront = hardwareMap.get(ExpansionHubMotor.class, "rightFront");
 
         motors = Arrays.asList(leftFront, leftRear, rightRear, rightFront);
         leftMotors = Arrays.asList(leftFront, leftRear);
@@ -89,11 +90,15 @@ public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
 
     }
 
+
+
     @Override
     public PIDCoefficients getPIDCoefficients(DcMotor.RunMode runMode) {
         PIDFCoefficients coefficients = leftMotors.get(0).getPIDFCoefficients(runMode);
         return new PIDCoefficients(coefficients.p, coefficients.i, coefficients.d);
     }
+
+
 
     @Override
     public void setPIDCoefficients(DcMotor.RunMode runMode, PIDCoefficients coefficients) {
@@ -123,7 +128,7 @@ public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
         return Arrays.asList(leftSum / leftMotors.size(), rightSum / rightMotors.size());
     }
 
-    @Override
+
     public void setMotorPowers(double v, double v1) {
         for (ExpansionHubMotor leftMotor : leftMotors) {
             leftMotor.setPower(v);
@@ -138,5 +143,12 @@ public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
         return getLocalizer().getPoseEstimate().getHeading();
     }
 
+    @Override
+    public void setMotorPowers(double first, double second, double third, double fourth){
+        List<Double> powers = Arrays.asList(first,second,third,fourth);
+        for(int i = 0; i<4; i++){
+            motors.get(i).setPower(powers.get(i));
+        }
+    }
 
 }
