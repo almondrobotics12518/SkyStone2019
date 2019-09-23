@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class Hook {
     private Servo hook;
-    public static double RETRACT_POS = 0.3;
+    public static double RETRACT_POS = 0;
     public static double EXTEND_POS = 0.55;
 
 

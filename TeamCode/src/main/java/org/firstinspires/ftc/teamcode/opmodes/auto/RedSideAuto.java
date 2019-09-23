@@ -13,12 +13,12 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveREVOp
 import org.firstinspires.ftc.teamcode.subsystems.Hook;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
-@Autonomous(name="Blue Depot Auto",group="auto")
-public class BlueDepotSide extends AlmondLinear {
+@Autonomous(name="Red Depot Auto",group="auto")
+public class RedSideAuto extends AlmondLinear {
 
 
     public double firstDistance = 8;
-    public double firstHeading = 90;
+    public double firstHeading = -90;
     public double secondDistance = 30;
     public double secondHeading = 0;
     public double thirdDistance = 33;
@@ -41,16 +41,16 @@ public class BlueDepotSide extends AlmondLinear {
 
         switch(position){
             case LEFT:
-                firstDistance = 8;
-                thirdDistance = 33;
+                firstDistance = -8;
+                thirdDistance = 49;
                 break;
             case MIDDLE:
                 firstDistance = 0;
                 thirdDistance = 41;
                 break;
             case RIGHT:
-                firstDistance = -8;
-                thirdDistance = 49;
+                firstDistance = 8;
+                thirdDistance = 33;
                 break;
         }
 
@@ -63,8 +63,8 @@ public class BlueDepotSide extends AlmondLinear {
         turnTo(Math.toRadians(firstHeading));
 
         drive.followTrajectory(drive.trajectoryBuilder()
-        .forward(secondDistance)
-        .build());
+                .forward(secondDistance)
+                .build());
 
         turnTo(0);
 
@@ -72,7 +72,7 @@ public class BlueDepotSide extends AlmondLinear {
 
         drive.setDrivePower(new Pose2d(
                 0,
-                -0.5,
+                0.5,
                 0
         ));
 
@@ -94,8 +94,8 @@ public class BlueDepotSide extends AlmondLinear {
         waitForTime(500);
 
         drive.followTrajectorySync(drive.trajectoryBuilder()
-        .forward(-9)
-        .build());
+                .forward(-9)
+                .build());
 
 
     }
@@ -131,12 +131,12 @@ public class BlueDepotSide extends AlmondLinear {
         }
     }
 
-        public void waitForTime(double millis){
-            ElapsedTime time = new ElapsedTime();
-            while(!isStopRequested() && time.milliseconds()<millis){
+    public void waitForTime(double millis){
+        ElapsedTime time = new ElapsedTime();
+        while(!isStopRequested() && time.milliseconds()<millis){
 
-            }
         }
+    }
 
 
 }

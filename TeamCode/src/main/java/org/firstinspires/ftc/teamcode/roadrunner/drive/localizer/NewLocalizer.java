@@ -34,7 +34,7 @@ public class NewLocalizer implements Localizer {
 
     public NewLocalizer(HardwareMap hardwareMap){
 
-        hub = hardwareMap.get(ExpansionHubEx.class, "hub");
+        hub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 1");
 
 
         //Gyro Calibration
