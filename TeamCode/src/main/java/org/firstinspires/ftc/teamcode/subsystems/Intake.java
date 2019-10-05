@@ -14,8 +14,8 @@ public class Intake {
     public CRServo pushIn;
 
     public Intake(HardwareMap  hardwareMap) {
-            intakeLeft = hardwareMap.dcMotor.get("IntakeLeft");
-            intakeRight = hardwareMap.dcMotor.get("IntakeRight");
+            intakeLeft = hardwareMap.dcMotor.get("intakeLeft");
+            intakeRight = hardwareMap.dcMotor.get("intakeRight");
             pushIn = hardwareMap.crservo.get("pushIn");
 
             intakeLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

@@ -19,7 +19,7 @@ public class DriveConstants {
      */
     private static final MotorConfigurationType MOTOR_CONFIG =
             MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
-    private static final double TICKS_PER_REV = MOTOR_CONFIG.getTicksPerRev();
+    private static final double TICKS_PER_REV = 537.6;
 
     /*
      * These are physical constants that can be determined from your robot (including the track
@@ -52,7 +52,7 @@ public class DriveConstants {
      * forces acceleration-limited profiling).
      */
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            30.0, 30.0, 0.0,
+            30.0, 40.0, 0.0,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 
@@ -66,6 +66,6 @@ public class DriveConstants {
     }
 
     public static double getMaxRpm() {
-        return MOTOR_CONFIG.getMaxRPM();
+        return 300;
     }
 }

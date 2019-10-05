@@ -10,7 +10,7 @@ public class Hook {
 
 
     public Hook(HardwareMap hardwareMap){
-        hook = hardwareMap.servo.get("Hook");
+        hook = hardwareMap.servo.get("hook");
     }
 
     public void setPosition(double position){
