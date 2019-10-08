@@ -91,7 +91,6 @@ public class ConceptTensorFlowObjectDetection extends LinearOpMode {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
         initVuforia();
-        CameraDevice.getInstance().setFlashTorchMode(true);
         if (ClassFactory.getInstance().canCreateTFObjectDetector()) {
             initTfod();
         } else {
