@@ -122,6 +122,7 @@ public class SampleTankDriveREVOptimized extends SampleTankDriveBase {
         for (DcMotorEx leftMotor : leftMotors) {
             leftSum += encoderTicksToInches(bulkData.getMotorCurrentPosition(leftMotor));
         }
+
         for (DcMotorEx rightMotor : rightMotors) {
             rightSum += encoderTicksToInches(bulkData.getMotorCurrentPosition(rightMotor));
         }
