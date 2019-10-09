@@ -8,24 +8,24 @@ import com.qualcomm.robotcore.hardware.Servo;
 @Config
 public class Claw {
 
-    public static double RETRACT_POSITION = 0;
-    public static double EXTEND_POSITION = 1;
+    private static double RETRACT_POSITION = 0;
+    private static double EXTEND_POSITION = 1;
 
-    public CRServo spin;
-    public CRServo grab;
+    public Servo claw;
 
     public Claw(HardwareMap hardwareMap){
-        spin = hardwareMap.crservo.get("spinServo");
-        grab = hardwareMap.crservo.get("grabServo");
+        claw = hardwareMap.servo.get("clawServo");
     }
 
-
-    public void setSpinPower(double power){
-        spin.setPower(power);
+    public void setPosition(double position){
+        claw.setPosition(position);
     }
 
+    public void extend(){
+        claw.setPosition(EXTEND_POSITION);
+    }
 
-    public void setGrabPower(double power){
-        grab.setPower(power);
+    public void retract(){
+        claw.setPosition(RETRACT_POSITION);
     }
 }
