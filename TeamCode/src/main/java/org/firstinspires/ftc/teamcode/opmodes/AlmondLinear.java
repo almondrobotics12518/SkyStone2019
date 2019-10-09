@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import com.vuforia.CameraDevice;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -51,18 +52,20 @@ public abstract class AlmondLinear extends LinearOpMode {
         tfodParameters.minimumConfidence = 0.8;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
-        if (tfod!=null){
+        if (tfod != null) {
             tfod.activate();
         }
     }
+
 
     public enum Positions {
         LEFT, MIDDLE, RIGHT, NONE;
     }
 
     public Positions autoPath() {
-        int leftRecognition = 69;
-        int middleRecognition = 900;
+        int rightRecognition = 630; // robot point of view and camera positioned at top right corner
+        int middleRecognition = 400;
+        String bruh = "";
 
         Positions path = Positions.LEFT;
 
@@ -71,24 +74,39 @@ public abstract class AlmondLinear extends LinearOpMode {
             for (Recognition recognition : updatedRecognitions) {
 
                 telemetry.addData(String.format("label "), recognition.getLabel());
-                telemetry.addData(String.format("  left,top "), "%.03f , %.03f",
+                telemetry.addData(String.format("  left, top "), "%.03f , %.03f",
                         recognition.getLeft(), recognition.getTop());
-                telemetry.addData(String.format("  right,bottom "), "%.03f , %.03f",
+                telemetry.addData(String.format("  right, bottom "), "%.03f , %.03f",
                         recognition.getRight(), recognition.getBottom());
+
+                telemetry.addLine("middle: " + (recognition.getRight() + recognition.getLeft()) / 2);
+                telemetry.addLine("path: " + bruh);
                 telemetry.update();
+
 
                 if (recognition.getLabel() == "Skystone") {
                     double middle = (recognition.getRight() + recognition.getLeft()) / 2;
-                    if (middle < leftRecognition) {
-                        path=Positions.RIGHT;
-                    } else if (middle > leftRecognition || middle < middleRecognition) {
+                    if ((middle > rightRecognition) && (middle > middleRecognition)) {
+                        path = Positions.RIGHT;
+                        bruh = "right";
+                        telemetry.addLine("path: " + bruh);
+                        telemetry.update();
+                    } else if ((middle > middleRecognition) && (middle < rightRecognition)) {
                         path = Positions.MIDDLE;
+                        bruh = "middle";
+                        telemetry.addLine("path: " + bruh);
+                        telemetry.update();
+                    } else {
+                        path = Positions.LEFT;
+                        bruh = "left";
+                        telemetry.addLine("path: " + bruh);
+                        telemetry.update();
                     }
+
                 }
             }
-        } else {
-            path = Positions.LEFT;
         }
         return path;
     }
 }
+
