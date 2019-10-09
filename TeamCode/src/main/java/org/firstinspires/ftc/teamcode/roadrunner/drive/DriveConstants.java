@@ -43,6 +43,6 @@ public class DriveConstants {
     }
 
     public static double getMaxRpm() {
-        return 300;
+        return 312;
     }
 }

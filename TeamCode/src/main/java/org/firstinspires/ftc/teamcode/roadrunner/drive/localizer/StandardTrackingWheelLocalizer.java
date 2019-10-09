@@ -39,7 +39,9 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
 
     private ExpansionHubEx hub;
 
-    private int LEFT_ENCODER_PORT, RIGHT_ENCODER_PORT, FRONT_ENCODER_PORT;
+    private int LEFT_ENCODER_PORT = 0;
+    private int RIGHT_ENCODER_PORT = 1;
+    private int FRONT_ENCODER_PORT = 2;
 
     public StandardTrackingWheelLocalizer(HardwareMap hardwareMap) {
         super(Arrays.asList(
@@ -48,6 +50,7 @@ public class StandardTrackingWheelLocalizer extends ThreeTrackingWheelLocalizer 
                 new Pose2d(FORWARD_OFFSET, 0, Math.toRadians(90)) // front
         ));
 
+        hub = hardwareMap.get(ExpansionHubEx.class,"Expansion Hub 1");
 
     }
 
