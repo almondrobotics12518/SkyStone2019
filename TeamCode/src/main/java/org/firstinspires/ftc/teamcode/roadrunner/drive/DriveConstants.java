@@ -18,18 +18,18 @@ public class DriveConstants {
 
     public static double WHEEL_RADIUS = 2;
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 18;
+    public static double TRACK_WIDTH = 35;
 
     /*
      * Tune these!!!!
      */
-    public static double kV = 1.0 / rpmToVelocity(getMaxRpm());
+    public static double kV = 0.0124;
     public static double kA = 0;
     public static double kStatic = 0;
 
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            30.0, 50.0, 0.0,
+            40.0, 30.0, 0.0,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 
@@ -43,6 +43,6 @@ public class DriveConstants {
     }
 
     public static double getMaxRpm() {
-        return 312;
+        return 340;
     }
 }

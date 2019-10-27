@@ -8,6 +8,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import android.support.annotation.NonNull;
 
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LynxOptimizedI2cFactory;
 import org.openftc.revextensions2.ExpansionHubEx;
@@ -53,7 +56,7 @@ public class NewLocalizer implements Localizer {
     }
 
     public double getHeading(){
-        return imu.getAngularOrientation().firstAngle;
+        return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + (2 * Math.PI) )%(2*Math.PI);
     }
 
     public List<Double> getWheelPositions(){
@@ -62,8 +65,8 @@ public class NewLocalizer implements Localizer {
 
         if (bulkData == null){ return Arrays.asList(0.0,0.0); }
 
-        rightDistance = DriveConstants.encoderTicksToInches(bulkData.getMotorCurrentPosition(rightFront)+bulkData.getMotorCurrentPosition(rightRear))/2;
-        leftDistance = DriveConstants.encoderTicksToInches(bulkData.getMotorCurrentPosition(leftFront)+bulkData.getMotorCurrentPosition(leftRear)/2);
+        rightDistance = -DriveConstants.encoderTicksToInches(bulkData.getMotorCurrentPosition(rightFront)+bulkData.getMotorCurrentPosition(rightRear))/2;
+        leftDistance = -DriveConstants.encoderTicksToInches(bulkData.getMotorCurrentPosition(leftFront)+bulkData.getMotorCurrentPosition(leftRear)/2);
         return Arrays.asList(
                 rightDistance,
                 leftDistance
@@ -75,6 +78,8 @@ public class NewLocalizer implements Localizer {
         if(imu!=null) {
             currentHeading = getHeading();
         } else { currentHeading = lastHeading; }
+
+
 
         currentWheelPositions = getWheelPositions();
         double distance = (currentWheelPositions.get(0)-lastWheelPositions.get(0)+currentWheelPositions.get(1)-lastWheelPositions.get(1))/2;

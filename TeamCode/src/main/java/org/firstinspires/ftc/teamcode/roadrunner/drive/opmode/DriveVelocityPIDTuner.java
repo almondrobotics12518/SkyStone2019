@@ -7,19 +7,24 @@ import com.acmerobotics.dashboard.config.variable.BasicVariable;
 import com.acmerobotics.dashboard.config.variable.CustomVariable;
 import com.acmerobotics.dashboard.telemetry.MultipleTelemetry;
 import com.acmerobotics.roadrunner.control.PIDCoefficients;
+import com.acmerobotics.roadrunner.drive.Drive;
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.profile.MotionProfile;
 import com.acmerobotics.roadrunner.profile.MotionProfileGenerator;
 import com.acmerobotics.roadrunner.profile.MotionState;
 import com.acmerobotics.roadrunner.util.NanoClock;
+import com.qualcomm.hardware.HardwareFactory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.RobotLog;
 
 import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveREVOptimized;
+import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +45,7 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.kV;
 @Config
 @Autonomous(group = "drive")
 public class DriveVelocityPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 72;
+    public static double DISTANCE = 36;
 
     private static final String PID_VAR_NAME = "VELO_PID";
 
@@ -48,7 +53,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
     private String catName;
     private CustomVariable catVar;
 
-    private SampleTankDriveBase drive;
+    private SampleMecanumDrive drive;
 
     private static MotionProfile generateProfile(boolean movingForward) {
         MotionState start = new MotionState(movingForward ? 0 : DISTANCE, 0, 0, 0);
@@ -128,8 +133,7 @@ public class DriveVelocityPIDTuner extends LinearOpMode {
     public void runOpMode() {
         telemetry = new MultipleTelemetry(telemetry, dashboard.getTelemetry());
 
-        drive = new SampleTankDriveREVOptimized(hardwareMap);
-
+        drive = new DriveTrain(hardwareMap);
         addPidVariable();
 
         NanoClock clock = NanoClock.system();

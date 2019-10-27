@@ -5,27 +5,32 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.openftc.revextensions2.ExpansionHubEx;
+
 @Config
 public class Claw {
 
-    private static double RETRACT_POSITION = 0;
-    private static double EXTEND_POSITION = 1;
+    public static double LEFT_EXTEND_POSITION = 0.15;
+    public static double LEFT_RETRACT_POSITION = 0.55;
 
-    public Servo claw;
+    public static double RIGHT_RETRACT_POSITION = 0.7;
+    public static double RIGHT_EXTEND_POSITION = 1;
+
+    public Servo clawLeft;
+    public Servo clawRight;
 
     public Claw(HardwareMap hardwareMap){
-        claw = hardwareMap.servo.get("clawServo");
-    }
-
-    public void setPosition(double position){
-        claw.setPosition(position);
+        clawLeft = hardwareMap.get(Servo.class,"clawLeft");
+        clawRight = hardwareMap.get(Servo.class,"clawRight");
     }
 
     public void extend(){
-        claw.setPosition(EXTEND_POSITION);
+        clawLeft.setPosition(LEFT_EXTEND_POSITION);
+        clawRight.setPosition(RIGHT_EXTEND_POSITION);
     }
 
     public void retract(){
-        claw.setPosition(RETRACT_POSITION);
+        clawLeft.setPosition(RIGHT_RETRACT_POSITION);
+        clawRight.setPosition(LEFT_RETRACT_POSITION);
     }
 }

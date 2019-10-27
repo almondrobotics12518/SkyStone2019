@@ -5,8 +5,10 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveREVOptimized;
+import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 
 /*
  * Op mode for tuning follower PID coefficients. The robot drives in a DISTANCE-by-DISTANCE square
@@ -15,11 +17,11 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveREVOp
 @Config
 @Autonomous(group = "drive")
 public class FollowerPIDTuner extends LinearOpMode {
-    public static double DISTANCE = 48;
+    public static double DISTANCE = 18;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleTankDriveBase drive = new SampleTankDriveREVOptimized(hardwareMap);
+        SampleMecanumDrive drive = new DriveTrain(hardwareMap);
 
         drive.setPoseEstimate(new Pose2d(-DISTANCE / 2, -DISTANCE / 2, 0));
 

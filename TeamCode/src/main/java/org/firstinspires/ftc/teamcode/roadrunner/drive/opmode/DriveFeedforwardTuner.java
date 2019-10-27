@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.roadrunner.drive.opmode;
 
 import com.acmerobotics.dashboard.config.Config;
+import com.acmerobotics.roadrunner.drive.MecanumDrive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.tuning.AccelRegression;
 import com.acmerobotics.roadrunner.tuning.RampRegression;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveREVOptimized;
 import org.firstinspires.ftc.teamcode.roadrunner.util.LoggingUtil;
+import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.getMaxRpm;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.rpmToVelocity;
@@ -31,11 +33,11 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.rpm
 @Autonomous(group = "drive")
 public class DriveFeedforwardTuner extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
-    public static final double DISTANCE = 100;
+    public static final double DISTANCE = 30;
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleTankDriveBase drive = new SampleTankDriveREVOptimized(hardwareMap);
+        MecanumDrive drive = new DriveTrain(hardwareMap);
 
         NanoClock clock = NanoClock.system();
 

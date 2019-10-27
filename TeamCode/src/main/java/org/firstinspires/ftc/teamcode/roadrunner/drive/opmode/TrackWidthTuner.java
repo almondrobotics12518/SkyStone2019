@@ -9,8 +9,10 @@ import com.qualcomm.robotcore.util.MovingStatistics;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
+import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveREVOptimized;
+import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 
 /*
  * This routine determines the effective track width. The procedure works by executing a point turn
@@ -29,7 +31,7 @@ public class TrackWidthTuner extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        SampleTankDriveBase drive = new SampleTankDriveREVOptimized(hardwareMap);
+        SampleMecanumDrive drive = new DriveTrain(hardwareMap);
 
         telemetry.log().add("Press play to begin the track width tuner routine");
         telemetry.log().add("Make sure your robot has enough clearance to turn smoothly");
