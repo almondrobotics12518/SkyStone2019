@@ -14,8 +14,7 @@ public class VisionTest extends AlmondLinear {
     public Positions skystonePosition;
 
     public void runOpMode(){
-        initVuforia();
-        initTF();
+        initVuf();
 
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
