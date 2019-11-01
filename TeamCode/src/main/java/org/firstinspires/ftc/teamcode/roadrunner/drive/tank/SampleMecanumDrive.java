@@ -36,9 +36,9 @@ import org.firstinspires.ftc.teamcode.roadrunner.util.DashboardUtil;
  */
 @Config
 public abstract class SampleMecanumDrive extends MecanumDrive {
-    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(10, 0, 0.5);
-    public static PIDCoefficients HEADING_PID = new PIDCoefficients(5.5, 0, 0.3);
-    public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(6.4,0,0);
+    public static PIDCoefficients TRANSLATIONAL_PID = new PIDCoefficients(22, 0, 0.7);
+    public static PIDCoefficients HEADING_PID = new PIDCoefficients(10, 0, 0.3);
+    public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(6.7,0,0);
 
 
     public enum Mode {

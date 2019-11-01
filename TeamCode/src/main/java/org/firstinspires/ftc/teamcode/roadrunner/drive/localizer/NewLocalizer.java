@@ -17,10 +17,12 @@ import org.openftc.revextensions2.ExpansionHubEx;
 import org.openftc.revextensions2.ExpansionHubMotor;
 import org.openftc.revextensions2.RevBulkData;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.TRACK_WIDTH;
+import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.encoderTicksToInches;
 
 public class NewLocalizer implements Localizer {
 
@@ -29,9 +31,10 @@ public class NewLocalizer implements Localizer {
 
     private ExpansionHubMotor leftFront, leftRear, rightFront, rightRear;
 
-    private List<Double> lastWheelPositions = Arrays.asList(0.0,0.0);
-    private List<Double> currentWheelPositions = Arrays.asList(0.0,0.0);
+    private List<Double> lastWheelPositions = Arrays.asList(0.0,0.0,0.0,0.0);
+    private List<Double> currentWheelPositions = Arrays.asList(0.0,0.0,0.0,0.0);
     private double lastHeading=0, currentHeading=0;
+    private double headingOffset=0;
     private double deltaX, deltaY;
     private Pose2d poseEstimate = new Pose2d(0,0,0),lastPoseEstimate=new Pose2d(0,0,0);
 
@@ -55,49 +58,70 @@ public class NewLocalizer implements Localizer {
         rightFront = hardwareMap.get(ExpansionHubMotor.class, "rightFront");
     }
 
-    public double getHeading(){
-        return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + (2 * Math.PI) )%(2*Math.PI);
-    }
-
-    public List<Double> getWheelPositions(){
-        double rightDistance = 0, leftDistance = 0;
-        RevBulkData bulkData = hub.getBulkInputData();
-
-        if (bulkData == null){ return Arrays.asList(0.0,0.0); }
-
-        rightDistance = -DriveConstants.encoderTicksToInches(bulkData.getMotorCurrentPosition(rightFront)+bulkData.getMotorCurrentPosition(rightRear))/2;
-        leftDistance = -DriveConstants.encoderTicksToInches(bulkData.getMotorCurrentPosition(leftFront)+bulkData.getMotorCurrentPosition(leftRear)/2);
-        return Arrays.asList(
-                rightDistance,
-                leftDistance
-        );
-
-    }
 
     public void update(){
         if(imu!=null) {
             currentHeading = getHeading();
         } else { currentHeading = lastHeading; }
 
-
-
         currentWheelPositions = getWheelPositions();
-        double distance = (currentWheelPositions.get(0)-lastWheelPositions.get(0)+currentWheelPositions.get(1)-lastWheelPositions.get(1))/2;
+        List<Double> wheelDeltas = Arrays.asList(currentWheelPositions.get(0)-lastWheelPositions.get(0),
+                currentWheelPositions.get(1)-lastWheelPositions.get(1),
+                currentWheelPositions.get(2)-lastWheelPositions.get(2),
+                currentWheelPositions.get(3)-lastWheelPositions.get(3));
 
-        deltaX = Math.cos(lastHeading)*distance;
-        deltaY = Math.sin(lastHeading)*distance;
+        double robotDeltaX = 0;
+        for(double position : wheelDeltas) {
+            robotDeltaX += position / 4;
+        }
+
+        double robotDeltaY = wheelDeltas.get(0) - wheelDeltas.get(1) +wheelDeltas.get(2) - wheelDeltas.get(3);
+
+        deltaX = Math.cos(lastHeading)*robotDeltaX-Math.sin(lastHeading)*robotDeltaY;
+        deltaY = Math.sin(lastHeading)*robotDeltaX+Math.cos(lastHeading)*robotDeltaY;
 
         poseEstimate = new Pose2d(
-                lastPoseEstimate.getX()+deltaX,
-                lastPoseEstimate.getY()+deltaY,
+                poseEstimate.getX()+deltaX,
+                poseEstimate.getY()+deltaY,
                 currentHeading
         );
+
         lastWheelPositions = currentWheelPositions;
         lastHeading = currentHeading;
-        lastPoseEstimate = poseEstimate;
+
+    }
+
+    public List<Double> getWheelPositions(){
+
+        RevBulkData bulkData = hub.getBulkInputData();
+
+        if (bulkData == null){ return Arrays.asList(0.0,0.0,0.0,0.0); }
+
+        List<Double> positions = new ArrayList<>();
+        positions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(leftFront)));
+        positions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(leftRear)));
+        positions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(rightRear)));
+        positions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(rightFront)));
+
+        return positions;
+    }
+
+    public double getHeading(){
+        return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + (2 * Math.PI) + headingOffset )%(2*Math.PI);
     }
 
     public void setPoseEstimate(Pose2d estimate){ poseEstimate = estimate; }
+
+    /**
+     * This is used to set the start pose
+     * @param pose that is set as the start pose
+     */
+    public void setStartPose(Pose2d pose) {
+        poseEstimate = pose;
+        headingOffset = pose.getHeading();
+        currentHeading = getHeading();
+        lastHeading = getHeading();
+    }
 
     public Pose2d getPoseEstimate(){ return poseEstimate; }
 }
