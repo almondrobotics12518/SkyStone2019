@@ -22,6 +22,9 @@ public class LocalizationTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new DriveTrain(hardwareMap);
 
+
+
+
         waitForStart();
 
         while (!isStopRequested()) {
@@ -37,6 +40,7 @@ public class LocalizationTest extends LinearOpMode {
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.addData("angle",poseEstimate.getHeading()*180/Math.PI);
+            telemetry.addData("Wheel Positions",drive.getWheelPositions());
             telemetry.update();
         }
     }
