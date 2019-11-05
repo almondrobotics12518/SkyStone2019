@@ -22,19 +22,25 @@ public class LocalizationTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         SampleMecanumDrive drive = new DriveTrain(hardwareMap);
 
+
+
+
         waitForStart();
 
         while (!isStopRequested()) {
-            drive.setMotorPowers(-gamepad1.left_stick_y-gamepad1.right_stick_x,-gamepad1.left_stick_y-gamepad1.right_stick_x,-gamepad1.left_stick_y+gamepad1.right_stick_x,-gamepad1.left_stick_y+gamepad1.right_stick_x);
-            drive.update();
+            drive.setDrivePower(new Pose2d(
+                    -gamepad1.left_stick_y,
+                    -gamepad1.left_stick_x,
+                    -gamepad2.right_stick_x
+            ));
+            drive.updatePoseEstimate();
 
             Pose2d poseEstimate = drive.getPoseEstimate();
             telemetry.addData("x", poseEstimate.getX());
             telemetry.addData("y", poseEstimate.getY());
             telemetry.addData("heading", poseEstimate.getHeading());
             telemetry.addData("angle",poseEstimate.getHeading()*180/Math.PI);
-            telemetry.addData("Wheel Positions", String.valueOf(drive.getWheelPositions()));
-            telemetry.addData("All Orientation", drive.getOrientation());
+            telemetry.addData("Wheel Positions",drive.getWheelPositions());
             telemetry.update();
         }
     }
