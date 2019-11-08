@@ -31,7 +31,6 @@ public abstract class AlmondLinear extends LinearOpMode {
     public SampleTankDriveBase drive;
     public Hook hook;
     public Claw claw;
-
     public static final String VUFORIA_KEY =
             "AapPoTb/////AAABmcGNGhG7GUe/iZ1mnxUvFtiIlkU7ezYNDHjvlnApSPJtrWB9SWukzQuzeVOPBEgk1EIT1qr0HIXB7KdkXBiBakilo9wE4ya/P9MunTSV8dOe2wAEej6VZOeZF46YcDilT+LG3Fu1FJ2KmMJrgAjT/1P3k1KTSs4kuY0m+2nJK3foxjQNVGB+m7bRX9cQqhQeTJvE1Us4RyXekpmxBpbyEvj6gtVHq179S4PNyjs1r/a+jcX9amOfD8IkihmH3wYZR6VH8ryuDKAnFJ+RD/oqW4Aa8WwbAhnseXEG0OwKk1SX5G/yUrahz4S1dNjna5sj1yxfRepZVrKG4qOEmH+kfX+eTn3+ssPnKzodtbJr9ptm";
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -127,28 +126,33 @@ public abstract class AlmondLinear extends LinearOpMode {
 
     public Positions autoPath() {
 
-        int rightRecognition = null;
-        int middleRecognition = null;
+        // breakpoints for deciding paths
+        VectorF translation = lastLocation.getTranslation();
+        int rightRecognition = 600;
+        int middleRecognition = 400;
 
+        // inital path none
         Positions path = Positions.NONE;
 
+        // if skystone is visible, decide path based on location of skystone
         if(targetVisible){
             if(translation.get(0)/mmPerInch > rightRecognition) {
-                path = Positions.Right;
-                telemetry.addData("Going Right");
-            } else if(translation.get(1)/mmPerInch > middleRecognition && translation.get(1)< rightRecognition) {
+                path = Positions.RIGHT;
+                telemetry.addData("Going Right","none");
+            } else if(translation.get(1)/mmPerInch > middleRecognition && translation.get(1) < rightRecognition) {
                 path = Positions.MIDDLE;
-                telemetry.addData("Going Middle");
+                telemetry.addData("Going Middle","none");
             } else{
                 path = Positions.LEFT;
-                telemetry.addData("Going Left");
+                telemetry.addData("Going Left","none");
             }
         }
         telemetry.update();
+        return path;
     }
 
     public enum Positions {
-        LEFT, MIDDLE, RIGHT, NONE;
+        LEFT, MIDDLE, RIGHT, NONE
     }
 
     /*
