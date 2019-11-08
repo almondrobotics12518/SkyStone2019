@@ -42,6 +42,7 @@ public abstract class AlmondLinear extends LinearOpMode {
     private OpenGLMatrix lastLocation = null;
     private static final float mmPerInch = 25.4f;
     public VuforiaLocalizer vuforia;
+    List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
     //private TFObjectDetector tfod;
 
 
@@ -80,8 +81,6 @@ public abstract class AlmondLinear extends LinearOpMode {
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
-
-        List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(targetsSkyStone);
         targetsSkyStone.activate();
         while (!isStopRequested()) {
@@ -126,6 +125,27 @@ public abstract class AlmondLinear extends LinearOpMode {
 
     }
 
+    public Positions autoPath() {
+
+        int rightRecognition = null;
+        int middleRecognition = null;
+
+        Positions path = Positions.NONE;
+
+        if(targetVisible){
+            if(translation.get(0)/mmPerInch > rightRecognition) {
+                path = Positions.Right;
+                telemetry.addData("Going Right");
+            } else if(translation.get(1)/mmPerInch > middleRecognition && translation.get(1)< rightRecognition) {
+                path = Positions.MIDDLE;
+                telemetry.addData("Going Middle");
+            } else{
+                path = Positions.LEFT;
+                telemetry.addData("Going Left");
+            }
+        }
+        telemetry.update();
+    }
 
     public enum Positions {
         LEFT, MIDDLE, RIGHT, NONE;
