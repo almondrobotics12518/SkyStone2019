@@ -23,13 +23,13 @@ public class DriveConstants {
     /*
      * Tune these!!!!
      */
-    public static double kV = 0.0124;
+    public static double kV = 0.018;
     public static double kA = 0;
     public static double kStatic = 0;
 
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            40.0, 30.0, 0.0,
+            30.0, 30.0, 0.0,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 

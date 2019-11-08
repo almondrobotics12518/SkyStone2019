@@ -75,7 +75,7 @@ public class NewLocalizer implements Localizer {
             robotDeltaX += position / 4;
         }
 
-        double robotDeltaY = wheelDeltas.get(0) - wheelDeltas.get(1) +wheelDeltas.get(2) - wheelDeltas.get(3);
+        double robotDeltaY = -0.4*(wheelDeltas.get(0) - wheelDeltas.get(1) +wheelDeltas.get(2) - wheelDeltas.get(3));
 
         deltaX = Math.cos(lastHeading)*robotDeltaX-Math.sin(lastHeading)*robotDeltaY;
         deltaY = Math.sin(lastHeading)*robotDeltaX+Math.cos(lastHeading)*robotDeltaY;
@@ -98,10 +98,10 @@ public class NewLocalizer implements Localizer {
         if (bulkData == null){ return Arrays.asList(0.0,0.0,0.0,0.0); }
 
         List<Double> positions = new ArrayList<>();
-        positions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(leftFront)));
-        positions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(leftRear)));
-        positions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(rightRear)));
-        positions.add(-encoderTicksToInches(bulkData.getMotorCurrentPosition(rightFront)));
+        positions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(leftFront)));
+        positions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(leftRear)));
+        positions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(rightRear)));
+        positions.add(encoderTicksToInches(bulkData.getMotorCurrentPosition(rightFront)));
 
         return positions;
     }
