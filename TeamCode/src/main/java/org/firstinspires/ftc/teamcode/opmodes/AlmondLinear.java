@@ -70,6 +70,7 @@ public abstract class AlmondLinear extends LinearOpMode {
         }
     }
 */
+    /*
     public void initNav() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -125,10 +126,11 @@ public abstract class AlmondLinear extends LinearOpMode {
 
     }
 
+
     public Positions autoPath() {
 
-        int rightRecognition = null;
-        int middleRecognition = null;
+        int rightRecognition = 0;
+        int middleRecognition = 0;
 
         Positions path = Positions.NONE;
 
@@ -146,6 +148,8 @@ public abstract class AlmondLinear extends LinearOpMode {
         }
         telemetry.update();
     }
+    */
+
 
     public enum Positions {
         LEFT, MIDDLE, RIGHT, NONE;
