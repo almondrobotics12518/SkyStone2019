@@ -31,13 +31,11 @@ public class TeleOp extends LinearOpMode {
 
         while(!isStopRequested()&&isStarted()){
 
-            drive.setDrivePower(
-                    new Pose2d(
-                            -gamepad1.left_stick_y,
-                            -gamepad1.left_stick_x,
-                            -gamepad1.right_stick_x
-                    )
-            );
+            double yPower = -gamepad1.left_stick_x*0.7;
+            double xPower = -gamepad1.left_stick_y*0.5;
+            double turnPower = -gamepad1.right_stick_x*0.5;
+
+            drive.setMotorPowers(xPower+yPower+turnPower,xPower-yPower+turnPower,xPower+yPower-turnPower,xPower+yPower-turnPower);
 
             if(gamepad2.a && !aWasPressed){
                 aWasPressed = true;

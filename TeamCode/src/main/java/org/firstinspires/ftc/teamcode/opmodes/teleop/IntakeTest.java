@@ -10,16 +10,13 @@ import org.firstinspires.ftc.teamcode.subsystems.Intake;
 @TeleOp(name="Intake Servo Test", group  = "test")
 public class IntakeTest extends LinearOpMode {
 
-
-    public static double intakePos;
-
     public void runOpMode() throws InterruptedException{
         Intake intake = new Intake(hardwareMap);
 
         waitForStart();
 
         while(!isStopRequested()&&isStarted()){
-            intake.setIntakePosition(intakePos);
+            intake.close();
         }
 
     }
