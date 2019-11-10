@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Hook;
  * This is an example of a more complex path to really test the tuning.
  */
 @Autonomous(group = "auto",name="Blue Quarry Auto")
-public class BlueQuarryAuto extends LinearOpMode {
+public class BlueQuarryAuto extends AlmondLinear {
     SampleMecanumDrive drive;
 
     @Override
@@ -71,62 +71,7 @@ public class BlueQuarryAuto extends LinearOpMode {
 
     }
 
-    /**
-     * this methos is used to turn to an absolute angle
-     * @param degrees to turn in an absolute angle
-     */
-    public void turn(double degrees){
-        drive.turn(Angle.normDelta(Math.toRadians(degrees)-drive.getPoseEstimate().getHeading()));
-        while(drive.isBusy()&&isStarted()&&!isStopRequested()){
-            drive.update();
-        }
-    }
 
-
-    /**
-     * This method is used to go forwards a speicied number of inches
-     * @param inches to travel
-     */
-    public void forward(double inches){
-        drive.followTrajectory(
-                drive.trajectoryBuilder().
-                        forward(inches).
-                        build()
-        );
-        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
-            drive.update();
-        }
-    }
-
-
-    /**
-     *
-     * @param inches to go backwards
-     */
-    public void back(double inches){
-        drive.followTrajectory(
-                drive.trajectoryBuilder().
-                        back(inches).
-                        build()
-        );
-        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
-            drive.update();
-        }
-    }
-
-    public void driveSideways(double power, int millis){
-        ElapsedTime t = new ElapsedTime();
-        t.reset();
-        drive.setDrivePower(
-                new Pose2d(0,power,0)
-        );
-
-        while(!isStopRequested() && isStarted() && t.milliseconds()<millis){
-            drive.updatePoseEstimate();
-        }
-
-        drive.setDrivePower(new Pose2d());
-    }
 
 
 }
