@@ -36,21 +36,20 @@ public class BlueQuarryAuto extends AlmondLinear {
 
 
         //Goes forward  to aline with a stone
-        back(7);
+        forward(21);
 
         //turns towards quarry
         turn(90);
-
-        //moves forward towards quarry
-        forward(26);
-
         //turns to intake
         turn(0);
 
         //drives away from quarry
-        driveSideways(-0.5,1000);
+        driveSideways(0.5,1000);
         turn(0);
 
+
+        driveSideways(-0.5,1000);
+        turn(0);
         //drives into build zone
         back(48);
 
