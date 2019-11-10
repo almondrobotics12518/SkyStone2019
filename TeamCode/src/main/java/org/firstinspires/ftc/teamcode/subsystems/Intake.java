@@ -14,10 +14,10 @@ public class Intake {
     public Servo intakeLeft;
 
     public static double RIGHT_OPEN_POS = 1;
-    public static double RIGHT_CLOSE_POS = 0.8;
+    public static double RIGHT_CLOSE_POS = 0.75;
 
     public static double LEFT_OPEN_POS = 0;
-    public static double LEFT_CLOSE_POS = 0.27;
+    public static double LEFT_CLOSE_POS = 0.3;
 
     public Intake(HardwareMap hardwareMap){
         intakeRight = hardwareMap.get(Servo.class,"intakeRight");

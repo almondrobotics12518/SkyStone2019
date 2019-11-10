@@ -39,17 +39,16 @@ public class BlueQuarryAuto extends LinearOpMode {
         forward(21);
 
         //turns towards quarry
-        turn(90);
-        //turns to intake
-        turn(0);
+        turn(-90);
 
         //drives away from quarry
         driveSideways(0.5,1000);
-        turn(0);
+        turn(-90);
 
+        //intake here
 
         driveSideways(-0.5,1000);
-        turn(0);
+        turn(-90);
         //drives into build zone
         back(48);
 
@@ -57,11 +56,11 @@ public class BlueQuarryAuto extends LinearOpMode {
         forward(78);
         //drives into quarry to pick up stone
         driveSideways(0.5,1200);
-        turn(0);
+        turn(-90);
 
         //drives away from quarry with stone
         driveSideways(-0.5,1300);
-        turn(0);
+        turn(-90);
 
         //drives into build zone again
         back(78);
