@@ -14,13 +14,12 @@ public class VisionTest extends AlmondLinear {
     public Positions skystonePosition;
 
     public void runOpMode(){
-
-
-        //initNav();
+        initNav();
         waitForStart();
 
         if (opModeIsActive()) {
             while (opModeIsActive()) {
+                autoPath();
 
             }
         }
