@@ -18,12 +18,12 @@ public class DriveConstants {
 
     public static double WHEEL_RADIUS = 2;
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 35;
+    public static double TRACK_WIDTH = 14.3;
 
     /*
      * Tune these!!!!
      */
-    public static double kV = 0.018;
+    public static double kV = 0.03;
     public static double kA = 0;
     public static double kStatic = 0;
 

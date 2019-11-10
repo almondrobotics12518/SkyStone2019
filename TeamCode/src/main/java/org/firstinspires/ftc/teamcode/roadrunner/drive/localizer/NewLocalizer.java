@@ -75,7 +75,7 @@ public class NewLocalizer implements Localizer {
             robotDeltaX += position / 4;
         }
 
-        double robotDeltaY = -0.4*(wheelDeltas.get(0) - wheelDeltas.get(1) +wheelDeltas.get(2) - wheelDeltas.get(3));
+        double robotDeltaY = 0;
 
         deltaX = Math.cos(lastHeading)*robotDeltaX-Math.sin(lastHeading)*robotDeltaY;
         deltaY = Math.sin(lastHeading)*robotDeltaX+Math.cos(lastHeading)*robotDeltaY;
