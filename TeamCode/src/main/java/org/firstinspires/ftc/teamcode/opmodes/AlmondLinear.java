@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -151,15 +154,65 @@ public abstract class AlmondLinear extends LinearOpMode {
         return path;
     }
 
-    public boolean isDetected() {
-        return targetVisible;
-    }
-
-
     public enum Positions {
         LEFT, MIDDLE, RIGHT, NONE
     }
 
+    /**
+     * this methos is used to turn to an absolute angle
+     * @param degrees to turn in an absolute angle
+     */
+    public void turn(double degrees){
+        drive.turn(Angle.normDelta(Math.toRadians(degrees)-drive.getPoseEstimate().getHeading()));
+        while(drive.isBusy()&&isStarted()&&!isStopRequested()){
+            drive.update();
+        }
+    }
 
+
+    /**
+     * This method is used to go forwards a speicied number of inches
+     * @param inches to travel
+     */
+    public void forward(double inches){
+        drive.followTrajectory(
+                drive.trajectoryBuilder().
+                        forward(inches).
+                        build()
+        );
+        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
+            drive.update();
+        }
+    }
+
+
+    /**
+     *
+     * @param inches to go backwards
+     */
+    public void back(double inches){
+        drive.followTrajectory(
+                drive.trajectoryBuilder().
+                        back(inches).
+                        build()
+        );
+        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
+            drive.update();
+        }
+    }
+
+    public void driveSideways(double power, int millis){
+        ElapsedTime t = new ElapsedTime();
+        t.reset();
+        drive.setDrivePower(
+                new Pose2d(0,power,0)
+        );
+
+        while(!isStopRequested() && isStarted() && t.milliseconds()<millis){
+            drive.updatePoseEstimate();
+        }
+
+        drive.setDrivePower(new Pose2d());
+    }
 }
 
