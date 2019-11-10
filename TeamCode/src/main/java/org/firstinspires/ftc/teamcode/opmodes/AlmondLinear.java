@@ -151,56 +151,15 @@ public abstract class AlmondLinear extends LinearOpMode {
         return path;
     }
 
+    public boolean isDetected() {
+        return targetVisible;
+    }
+
+
     public enum Positions {
         LEFT, MIDDLE, RIGHT, NONE
     }
 
-    /*
-    public Positions autoPath() {
-        int rightRecognition = 630; // robot point of view and camera positioned at top right corner
-        int middleRecognition = 400;
-        String bruh = "";
 
-        Positions path = Positions.LEFT;
-
-        List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-        if (updatedRecognitions != null) {
-            for (Recognition recognition : updatedRecognitions) {
-
-                telemetry.addData(String.format("label "), recognition.getLabel());
-                telemetry.addData(String.format("  left, top "), "%.03f , %.03f",
-                        recognition.getLeft(), recognition.getTop());
-                telemetry.addData(String.format("  right, bottom "), "%.03f , %.03f",
-                        recognition.getRight(), recognition.getBottom());
-
-                telemetry.addLine("middle: " + (recognition.getRight() + recognition.getLeft()) / 2);
-                telemetry.addLine("path: " + bruh);
-                telemetry.update();
-
-
-                if (recognition.getLabel() == "Skystone") {
-                    double middle = (recognition.getRight() + recognition.getLeft()) / 2;
-                    if ((middle > rightRecognition) && (middle > middleRecognition)) {
-                        path = Positions.RIGHT;
-                        bruh = "right";
-                        telemetry.addLine("path: " + bruh);
-                        telemetry.update();
-                    } else if ((middle > middleRecognition) && (middle < rightRecognition)) {
-                        path = Positions.MIDDLE;
-                        bruh = "middle";
-                        telemetry.addLine("path: " + bruh);
-                        telemetry.update();
-                    } else {
-                        path = Positions.LEFT;
-                        bruh = "left";
-                        telemetry.addLine("path: " + bruh);
-                        telemetry.update();
-                    }
-
-                }
-            }
-        }
-        return path;
-    }*/
 }
 
