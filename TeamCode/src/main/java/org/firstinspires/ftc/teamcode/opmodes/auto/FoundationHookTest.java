@@ -14,7 +14,6 @@ public class FoundationHookTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         claw = new Claw(hardwareMap);
-
         waitForStart();
 
         while(isStarted() && !isStopRequested()){

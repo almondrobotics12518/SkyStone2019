@@ -41,13 +41,13 @@ public class BlueQuarryAuto extends AlmondLinear {
         //turns towards quarry
         turn(-90);
 
-
+        back(5);
 
         //drives away from quarry
         driveSideways(0.5,1000);
         turn(-90);
 
-        //intake here
+
 
         driveSideways(-0.5,1000);
         turn(-90);
@@ -55,7 +55,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         back(48);
 
         //drives back to quarry for second stone
-        forward(78);
+        forward(72);
         //drives into quarry to pick up stone
         driveSideways(0.5,1200);
         turn(-90);
@@ -65,8 +65,9 @@ public class BlueQuarryAuto extends AlmondLinear {
         turn(-90);
 
         //drives into build zone again
-        back(78);
+        back(72);
 
+        forward(12);
 
 
     }
@@ -116,6 +117,7 @@ public class BlueQuarryAuto extends AlmondLinear {
 
     public void driveSideways(double power, int millis){
         ElapsedTime t = new ElapsedTime();
+        
         t.reset();
         drive.setDrivePower(
                 new Pose2d(0,power,0)

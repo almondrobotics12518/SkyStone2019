@@ -35,27 +35,23 @@ public class AutoTest extends AlmondLinear {
         drive.followTrajectory(
                 drive.trajectoryBuilder().
                         reverse().
-                        splineTo(new Pose2d(-32,-12,0)).
+                        splineTo(new Pose2d(-33,-16,0)).
                         build()
         );
+
+        while(drive.isBusy() && isStarted() && !isStopRequested()){
+            drive.update();
+        }
 
         claw.extend();
         timer.reset();
-        while(timer.milliseconds()<2000&&!isStopRequested()&&isStarted()){}
+        while(timer.milliseconds()<1000&&!isStopRequested()&&isStarted()){}
+        back(1);
+        turn(0);
 
-        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
-            drive.update();
-        }
+        driveSideways(-0.5,700);
 
-        drive.followTrajectory(
-                drive.trajectoryBuilder().
-                        splineTo(new Pose2d(-4,-16,0)).
-                        build()
-        );
-
-        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
-            drive.update();
-        }
+        forward(35);
 
         claw.retract();
 
@@ -63,7 +59,9 @@ public class AutoTest extends AlmondLinear {
         while(timer.milliseconds()<2000&&!isStopRequested()&&isStarted()){}
 
 
-        forward(4);
+        driveSideways(0.5,7000);
+
+
 
 
 
