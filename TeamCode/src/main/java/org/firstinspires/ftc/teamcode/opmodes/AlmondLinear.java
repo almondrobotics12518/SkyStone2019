@@ -4,8 +4,9 @@ package org.firstinspires.ftc.teamcode.opmodes;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
+
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
 import org.firstinspires.ftc.robotcore.external.matrices.VectorF;
@@ -21,6 +22,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveBase;
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.Hook;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +34,12 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 public abstract class AlmondLinear extends LinearOpMode {
 
+    public VuforiaTrackables targetsSkyStone;
     public SampleMecanumDrive drive;
     public Hook hook;
     public Claw claw;
+    public long timeElapsed;
+
     public static final String VUFORIA_KEY =
             "AapPoTb/////AAABmcGNGhG7GUe/iZ1mnxUvFtiIlkU7ezYNDHjvlnApSPJtrWB9SWukzQuzeVOPBEgk1EIT1qr0HIXB7KdkXBiBakilo9wE4ya/P9MunTSV8dOe2wAEej6VZOeZF46YcDilT+LG3Fu1FJ2KmMJrgAjT/1P3k1KTSs4kuY0m+2nJK3foxjQNVGB+m7bRX9cQqhQeTJvE1Us4RyXekpmxBpbyEvj6gtVHq179S4PNyjs1r/a+jcX9amOfD8IkihmH3wYZR6VH8ryuDKAnFJ+RD/oqW4Aa8WwbAhnseXEG0OwKk1SX5G/yUrahz4S1dNjna5sj1yxfRepZVrKG4qOEmH+kfX+eTn3+ssPnKzodtbJr9ptm";
     private static final String TFOD_MODEL_ASSET = "Skystone.tflite";
@@ -46,6 +51,7 @@ public abstract class AlmondLinear extends LinearOpMode {
     private static final float mmPerInch = 25.4f;
     public VuforiaLocalizer vuforia;
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
     //private TFObjectDetector tfod;
 
 
@@ -73,6 +79,7 @@ public abstract class AlmondLinear extends LinearOpMode {
         }
     }
 */
+
     public void initNav() {
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters(cameraMonitorViewId);
@@ -83,15 +90,14 @@ public abstract class AlmondLinear extends LinearOpMode {
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
-        VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+        this.targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
         allTrackables.addAll(targetsSkyStone);
         targetsSkyStone.activate();
+
     }
     public void Nav() {
 
-        timer = new ElapsedTime();
 
-        timer.start();
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
@@ -126,17 +132,12 @@ public abstract class AlmondLinear extends LinearOpMode {
             }
             telemetry.update();
 
-
-            timer.stop();
-
-            telemetry.addData("Time takent to detect", timer.getElapsedTimeSecs());
-
-        // Disable Tracking when we are done;
-        targetsSkyStone.deactivate();
+            if(isStopRequested()){
+                this.targetsSkyStone.deactivate();
+            }
 
 
     }
-
 
     public enum Positions {
         LEFT, MIDDLE, RIGHT, NONE
