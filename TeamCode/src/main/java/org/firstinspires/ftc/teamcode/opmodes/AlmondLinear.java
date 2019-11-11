@@ -31,7 +31,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 public abstract class AlmondLinear extends LinearOpMode {
 
-    public SampleTankDriveBase drive;
+    public SampleMecanumDrive drive;
     public Hook hook;
     public Claw claw;
     public static final String VUFORIA_KEY =
@@ -85,7 +85,12 @@ public abstract class AlmondLinear extends LinearOpMode {
         VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
         allTrackables.addAll(targetsSkyStone);
         targetsSkyStone.activate();
-        while (!isStopRequested()) {
+    }
+    public void Nav() {
+
+        timer = new ElapsedTime();
+
+        timer.start();
 
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
@@ -119,7 +124,11 @@ public abstract class AlmondLinear extends LinearOpMode {
                 telemetry.addData("Visible Target", "none");
             }
             telemetry.update();
-        }
+
+
+            timer.stop();
+
+            telemetry.addData("Time takent to detect", timer.getElapsedTimeSecs());
 
         // Disable Tracking when we are done;
         targetsSkyStone.deactivate();
@@ -127,32 +136,6 @@ public abstract class AlmondLinear extends LinearOpMode {
 
     }
 
-    public Positions autoPath() {
-
-        // breakpoints for deciding paths
-        VectorF translation = lastLocation.getTranslation();
-        int rightRecognition = 600;
-        int middleRecognition = 400;
-
-        // inital path none
-        Positions path = Positions.NONE;
-
-        // if skystone is visible, decide path based on location of skystone
-        if(targetVisible){
-            if(translation.get(0)/mmPerInch > rightRecognition) {
-                path = Positions.RIGHT;
-                telemetry.addData("Going Right","none");
-            } else if(translation.get(1)/mmPerInch > middleRecognition && translation.get(1) < rightRecognition) {
-                path = Positions.MIDDLE;
-                telemetry.addData("Going Middle","none");
-            } else{
-                path = Positions.LEFT;
-                telemetry.addData("Going Left","none");
-            }
-        }
-        telemetry.update();
-        return path;
-    }
 
     public enum Positions {
         LEFT, MIDDLE, RIGHT, NONE
