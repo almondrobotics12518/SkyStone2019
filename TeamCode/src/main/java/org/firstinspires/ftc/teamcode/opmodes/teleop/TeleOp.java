@@ -31,14 +31,14 @@ public class TeleOp extends LinearOpMode {
 
         while(!isStopRequested()&&isStarted()){
 
-            double yPower = gamepad1.left_stick_x*0.7;
-            double xPower = -gamepad1.left_stick_y*0.5;
-            double turnPower = gamepad1.right_stick_x*0.5;
+            double yPower = gamepad1.left_stick_x*0.6;
+            double xPower = -gamepad1.left_stick_y*0.4;
+            double turnPower = gamepad1.right_stick_x*0.4;
 
             if(gamepad1.right_bumper){
-                yPower *= 1.5;
-                xPower *= 2;
-                turnPower *= 2;
+                yPower *= 1.6;
+                xPower *= 2.5;
+                turnPower *= 2.5;
             }
 
             drive.setMotorPowers(xPower+yPower+turnPower,xPower-yPower+turnPower,xPower+yPower-turnPower,xPower-yPower-turnPower);
@@ -53,8 +53,8 @@ public class TeleOp extends LinearOpMode {
 
 
 
-            arm.setPower(-gamepad2.right_stick_y*0.5);
-            wrist.setPower(gamepad2.left_trigger-gamepad2.right_trigger);
+            arm.setPower(-gamepad2.right_stick_y*0.75);
+            wrist.setPower((gamepad2.left_trigger-gamepad2.right_trigger)*0.5);
 
             drive.updatePoseEstimate();
 
