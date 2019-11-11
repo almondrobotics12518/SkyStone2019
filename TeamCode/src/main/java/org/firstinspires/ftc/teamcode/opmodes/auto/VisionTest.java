@@ -16,7 +16,7 @@ public class VisionTest extends AlmondLinear {
     public void runOpMode(){
 
 
-        //initNav();
+        initNav();
         waitForStart();
 
         if (opModeIsActive()) {

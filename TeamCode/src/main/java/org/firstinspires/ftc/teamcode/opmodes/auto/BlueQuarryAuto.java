@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
+import org.firstinspires.ftc.teamcode.opmodes.AlmondLinear;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveBase;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveREVOptimized;
@@ -19,7 +20,6 @@ import org.firstinspires.ftc.teamcode.subsystems.Hook;
  */
 @Autonomous(group = "auto",name="Blue Quarry Auto")
 public class BlueQuarryAuto extends AlmondLinear {
-    SampleMecanumDrive drive;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -40,6 +40,8 @@ public class BlueQuarryAuto extends AlmondLinear {
 
         //turns towards quarry
         turn(-90);
+
+
 
         //drives away from quarry
         driveSideways(0.5,1000);
@@ -69,6 +71,62 @@ public class BlueQuarryAuto extends AlmondLinear {
 
     }
 
+    /**
+     * this method is used to turn to an absolute angle
+     * @param degrees to turn in an absolute angle
+     */
+    public void turn(double degrees){
+        drive.turn(Angle.normDelta(Math.toRadians(degrees)-drive.getPoseEstimate().getHeading()));
+        while(drive.isBusy()&&isStarted()&&!isStopRequested()){
+            drive.update();
+        }
+    }
+
+
+    /**
+     * This method is used to go forwards a specified number of inches
+     * @param inches to travel
+     */
+    public void forward(double inches){
+        drive.followTrajectory(
+                drive.trajectoryBuilder().
+                        forward(inches).
+                        build()
+        );
+        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
+            drive.update();
+        }
+    }
+
+
+    /**
+     *
+     * @param inches to go backwards
+     */
+    public void back(double inches){
+        drive.followTrajectory(
+                drive.trajectoryBuilder().
+                        back(inches).
+                        build()
+        );
+        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
+            drive.update();
+        }
+    }
+
+    public void driveSideways(double power, int millis){
+        ElapsedTime t = new ElapsedTime();
+        t.reset();
+        drive.setDrivePower(
+                new Pose2d(0,power,0)
+        );
+
+        while(!isStopRequested() && isStarted() && t.milliseconds()<millis){
+            drive.updatePoseEstimate();
+        }
+
+        drive.setDrivePower(new Pose2d());
+    }
 
 
 

@@ -8,16 +8,15 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
+import org.firstinspires.ftc.teamcode.opmodes.AlmondLinear;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 
 @Autonomous(group="auto",name="Foundation Side Auto")
-public class AutoTest extends LinearOpMode {
+public class AutoTest extends AlmondLinear {
 
-    private SampleMecanumDrive drive;
-    private Claw claw;
 
     public void runOpMode() throws InterruptedException {
 
@@ -33,7 +32,44 @@ public class AutoTest extends LinearOpMode {
 
         totalTime.reset();
 
-        drive.followTrajectory(drive.trajectoryBuilder()
+        drive.followTrajectory(
+                drive.trajectoryBuilder().
+                        reverse().
+                        splineTo(new Pose2d(-32,-12,0)).
+                        build()
+        );
+
+        claw.extend();
+        timer.reset();
+        while(timer.milliseconds()<2000&&!isStopRequested()&&isStarted()){}
+
+        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
+            drive.update();
+        }
+
+        drive.followTrajectory(
+                drive.trajectoryBuilder().
+                        splineTo(new Pose2d(-4,-16,0)).
+                        build()
+        );
+
+        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
+            drive.update();
+        }
+
+        claw.retract();
+
+        timer.reset();
+        while(timer.milliseconds()<2000&&!isStopRequested()&&isStarted()){}
+
+
+        forward(4);
+
+
+
+
+
+        /*drive.followTrajectory(drive.trajectoryBuilder()
                 .back(33)
                 .build());
         while(!isStopRequested()&&isStarted()&&drive.isBusy()){
@@ -84,7 +120,7 @@ public class AutoTest extends LinearOpMode {
         while(!isStopRequested()&&drive.isBusy()){
             drive.update();
         }
-
+    */
     }
 
 }
