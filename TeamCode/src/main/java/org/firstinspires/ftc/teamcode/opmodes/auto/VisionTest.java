@@ -4,7 +4,10 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.opmodes.AlmondLinear;
+
+
 
 import java.util.List;
 
@@ -15,14 +18,22 @@ public class VisionTest extends AlmondLinear {
 
     public void runOpMode(){
 
-
         initNav();
+
+
+        ElapsedTime timer = new ElapsedTime();
+
+
         waitForStart();
 
         if (opModeIsActive()) {
-            while (opModeIsActive()) {
 
+            timer.reset();
+            while (opModeIsActive()&& timer.milliseconds()<2000) {
+                Nav();
             }
+
+
         }
 
 
