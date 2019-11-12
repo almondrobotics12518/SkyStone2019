@@ -6,7 +6,6 @@ import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import org.firstinspires.ftc.teamcode.subsystems.Claw;
 
 
 import org.firstinspires.ftc.teamcode.opmodes.AlmondLinear;
@@ -16,36 +15,29 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveREVOp
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.subsystems.Hook;
 
-
-@Autonomous(name="Red Quarry Auto",group="auto")
+/*
+ * This is an example of a more complex path to really test the tuning.
+ */
+@Autonomous(group = "auto",name="Red Quarry Auto")
 public class RedQuarryAuto extends AlmondLinear {
 
+    boolean isLastStone;
 
-
+    @Override
     public void runOpMode() throws InterruptedException {
-        //Init code
-        telemetry.addLine("Initializing...");
-        telemetry.update();
-
         drive = new DriveTrain(hardwareMap);
         hook = new Hook(hardwareMap);
-        claw = new Claw(hardwareMap);
 
+        double offset = 0;
 
-        telemetry.addLine("Initialized");
-        telemetry.update();
-        //servo initialization
+        ElapsedTime timer = new ElapsedTime();
+        initNav();
+
         hook.retract();
-
-
 
         waitForStart();
 
-        //positive sideways left
-        //negative sideways right
-
         if (isStopRequested()) return;
-
 
 
         //Goes forward  to aline with a stone
@@ -55,50 +47,57 @@ public class RedQuarryAuto extends AlmondLinear {
         turn(-90);
 
 
-        /*
-        if(targetVisible){
-            hook.extends();
-        }else {
-            forward(8);
-            if(targetVisible){
+        timer.reset();
+        while (timer.milliseconds() < 1000&&!isStopRequested()) {
+            Nav();
+        }
 
-            }else{
-                forward(8);
+        if (targetVisible) {
+            offset = 0;
+        } else {
+            back(8);
+            timer.reset();
+            while (timer.milliseconds() < 1000&&!isStopRequested()) {
+                Nav();
+            }
+            if (targetVisible) {
+                offset = 8;
+            } else {
+                back(7);
+                offset = 15;
+                isLastStone = true;
             }
         }
 
-         */
+        forward(4);
 
-
-
-
-
-        //drives away from quarry
-            driveSideways(0.5,1000);
-        turn(-90);
-
-        //intake here
-
-        driveSideways(-0.5,1000);
-        turn(-90);
+        intake();
         //drives into build zone
-        back(48);
+        forward(48 + offset);
 
+        hook.retract();
+        timer.reset();
+        while (timer.milliseconds() < 500 && !isStopRequested()) {
+        }
+
+        if(isLastStone){
+            offset = 8;
+        }
         //drives back to quarry for second stone
-        forward(78);
+        back(71 + offset);
         //drives into quarry to pick up stone
-        driveSideways(0.5,1200);
-        turn(-90);
-
-        //drives away from quarry with stone
-        driveSideways(-0.5,1300);
-        turn(-90);
+        intake();
 
         //drives into build zone again
-        back(78);
+        forward(71 + offset - 8);
 
+        hook.retract();
+        timer.reset();
+        while (timer.milliseconds() < 500&&!isStopRequested()) {
+        }
 
-
+        back(8);
 
     }
+
 }

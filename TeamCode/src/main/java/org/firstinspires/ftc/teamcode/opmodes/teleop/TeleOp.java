@@ -41,6 +41,8 @@ public class TeleOp extends LinearOpMode {
                 turnPower *= 2.5;
             }
 
+
+
             drive.setMotorPowers(xPower+yPower+turnPower,xPower-yPower+turnPower,xPower+yPower-turnPower,xPower-yPower-turnPower);
 
             if(gamepad2.a && !aWasPressed){

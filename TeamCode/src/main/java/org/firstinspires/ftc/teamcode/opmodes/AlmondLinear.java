@@ -46,7 +46,7 @@ public abstract class AlmondLinear extends LinearOpMode {
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private boolean targetVisible = false;
+    public boolean targetVisible = false;
     private OpenGLMatrix lastLocation = null;
     private static final float mmPerInch = 25.4f;
     public VuforiaLocalizer vuforia;
@@ -152,6 +152,21 @@ public abstract class AlmondLinear extends LinearOpMode {
         while(drive.isBusy()&&isStarted()&&!isStopRequested()){
             drive.update();
         }
+    }
+
+    public void intake(){
+        ElapsedTime time = new ElapsedTime();
+
+        driveSideways(0.5, 1000);
+        turn(-90);
+
+        hook.extend();
+        time.reset();
+        while (time.milliseconds() < 500) {
+        }
+
+        driveSideways(-0.5, 1000);
+        turn(-90);
     }
 
 

@@ -21,12 +21,17 @@ import org.firstinspires.ftc.teamcode.subsystems.Hook;
 @Autonomous(group = "auto",name="Blue Quarry Auto")
 public class BlueQuarryAuto extends AlmondLinear {
 
+    boolean isLastStone;
+
     @Override
     public void runOpMode() throws InterruptedException {
         drive = new DriveTrain(hardwareMap);
-        Hook hook = new Hook(hardwareMap);
+        hook = new Hook(hardwareMap);
+
+        double offset = 0;
 
         ElapsedTime timer = new ElapsedTime();
+        initNav();
 
         hook.retract();
 
@@ -41,95 +46,79 @@ public class BlueQuarryAuto extends AlmondLinear {
         //turns towards quarry
         turn(-90);
 
-        back(5);
 
-        //drives away from quarry
-        driveSideways(0.5,1000);
+        timer.reset();
+        while (timer.milliseconds() < 1000&&!isStopRequested()) {
+            Nav();
+        }
+
+        if (targetVisible) {
+            offset = 0;
+            isLastStone = true;
+        } else {
+            back(8);
+            timer.reset();
+            while (timer.milliseconds() < 1000&&!isStopRequested()) {
+                Nav();
+            }
+            if (targetVisible) {
+                offset = 8;
+            } else {
+                back(7);
+                offset = 15;
+
+            }
+        }
+
+        forward(2);
+
+        driveSideways(0.5, 1000);
         turn(-90);
 
+        hook.extend();
+        timer.reset();
+        while (timer.milliseconds() < 500) {
+        }
 
-
-        driveSideways(-0.5,1000);
+        driveSideways(-0.5, 1000);
         turn(-90);
         //drives into build zone
-        back(48);
+        back(51 - offset);
+
+        hook.retract();
+        timer.reset();
+        while (timer.milliseconds() < 500) {
+        }
+
+        if(isLastStone){
+            offset = 8;
+        }
 
         //drives back to quarry for second stone
-        forward(72);
+        forward(75 - offset);
         //drives into quarry to pick up stone
-        driveSideways(0.5,1200);
+        driveSideways(0.5, 1000);
         turn(-90);
 
+        hook.extend();
+        timer.reset();
+        while (timer.milliseconds() < 500&&!isStopRequested()) {
+        }
+
         //drives away from quarry with stone
-        driveSideways(-0.5,1300);
+        driveSideways(-0.5, 1000);
         turn(-90);
 
         //drives into build zone again
-        back(72);
+        back(75 - offset);
 
-        forward(12);
-
-
-    }
-
-    /**
-     * this method is used to turn to an absolute angle
-     * @param degrees to turn in an absolute angle
-     */
-    public void turn(double degrees){
-        drive.turn(Angle.normDelta(Math.toRadians(degrees)-drive.getPoseEstimate().getHeading()));
-        while(drive.isBusy()&&isStarted()&&!isStopRequested()){
-            drive.update();
-        }
-    }
-
-
-    /**
-     * This method is used to go forwards a specified number of inches
-     * @param inches to travel
-     */
-    public void forward(double inches){
-        drive.followTrajectory(
-                drive.trajectoryBuilder().
-                        forward(inches).
-                        build()
-        );
-        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
-            drive.update();
-        }
-    }
-
-
-    /**
-     *
-     * @param inches to go backwards
-     */
-    public void back(double inches){
-        drive.followTrajectory(
-                drive.trajectoryBuilder().
-                        back(inches).
-                        build()
-        );
-        while(drive.isBusy()&&!isStopRequested()&&isStarted()){
-            drive.update();
-        }
-    }
-
-    public void driveSideways(double power, int millis){
-        ElapsedTime t = new ElapsedTime();
-        
-        t.reset();
-        drive.setDrivePower(
-                new Pose2d(0,power,0)
-        );
-
-        while(!isStopRequested() && isStarted() && t.milliseconds()<millis){
-            drive.updatePoseEstimate();
+        hook.retract();
+        timer.reset();
+        while (timer.milliseconds() < 500&&!isStopRequested()) {
         }
 
-        drive.setDrivePower(new Pose2d());
+        forward(4);
+
     }
-
-
 
 }
