@@ -14,8 +14,8 @@ import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleMecanumDrive;
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 
-@Autonomous(group="auto",name="Foundation Side Auto")
-public class AutoTest extends AlmondLinear {
+@Autonomous(group="auto",name="Red Foundation Auto")
+public class RedFoundationAuto extends AlmondLinear {
 
 
     public void runOpMode() throws InterruptedException {
@@ -35,7 +35,7 @@ public class AutoTest extends AlmondLinear {
         drive.followTrajectory(
                 drive.trajectoryBuilder().
                         reverse().
-                        splineTo(new Pose2d(-33,-16,0)).
+                        splineTo(new Pose2d(-35,16,0)).
                         build()
         );
 
@@ -43,15 +43,16 @@ public class AutoTest extends AlmondLinear {
             drive.update();
         }
 
+        back(1);
         claw.extend();
         timer.reset();
         while(timer.milliseconds()<1000&&!isStopRequested()&&isStarted()){}
         back(1);
         turn(0);
 
-        driveSideways(-0.5,700);
+        driveSideways(0.5,700);
 
-        forward(35);
+        forward(39);
 
         claw.retract();
 
@@ -59,66 +60,9 @@ public class AutoTest extends AlmondLinear {
         while(timer.milliseconds()<2000&&!isStopRequested()&&isStarted()){}
 
 
-        driveSideways(0.5,7000);
+        while(totalTime.milliseconds()<23000&&!isStopRequested()){}
 
-
-
-
-
-
-
-        /*drive.followTrajectory(drive.trajectoryBuilder()
-                .back(33)
-                .build());
-        while(!isStopRequested()&&isStarted()&&drive.isBusy()){
-            drive.update();
-        }
-
-        claw.extend();
-        timer.reset();
-        while(!isStopRequested()&&timer.milliseconds()<1000){
-            drive.update();
-        }
-        drive.followTrajectory(drive.trajectoryBuilder()
-            .forward(31).build());
-
-        while(!isStopRequested()&&isStarted()&&drive.isBusy()){
-            drive.update();
-
-        }
-
-
-
-        claw.retract();
-
-        while(!isStopRequested()&&timer.milliseconds()<1500){
-            drive.update();
-        }
-
-        drive.followTrajectory(drive.trajectoryBuilder()
-                .forward(4)
-                .build());
-        while(!isStopRequested()&&drive.isBusy()){
-            drive.update();
-        }
-
-        drive.turn(Math.toRadians(90));
-        while(drive.isBusy()&&!isStopRequested()){
-            drive.update();
-        }
-
-        while(totalTime.milliseconds()<25000&&!isStopRequested()){
-            drive.update();
-        }
-
-        drive.followTrajectory(drive.trajectoryBuilder()
-        .forward(48)
-        .build());
-
-        while(!isStopRequested()&&drive.isBusy()){
-            drive.update();
-        }
-    */
+        driveSideways(-0.5,5500);
     }
 
 }

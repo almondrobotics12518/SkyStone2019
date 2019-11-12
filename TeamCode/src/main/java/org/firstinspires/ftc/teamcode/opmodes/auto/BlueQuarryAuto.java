@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.vuforia.CameraDevice;
 
 
 import org.firstinspires.ftc.teamcode.opmodes.AlmondLinear;
@@ -47,6 +48,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         turn(-90);
 
 
+        CameraDevice.getInstance().setFlashTorchMode(true);
         timer.reset();
         while (timer.milliseconds() < 1000&&!isStopRequested()) {
             Nav();
@@ -64,13 +66,14 @@ public class BlueQuarryAuto extends AlmondLinear {
             if (targetVisible) {
                 offset = 8;
             } else {
-                back(7);
-                offset = 15;
+                back(8);
+                offset = 17;
 
             }
         }
+        CameraDevice.getInstance().setFlashTorchMode(false);
 
-        forward(2);
+        forward(3);
 
         driveSideways(0.5, 1000);
         turn(-90);
@@ -80,7 +83,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         while (timer.milliseconds() < 500) {
         }
 
-        driveSideways(-0.5, 1000);
+        driveSideways(-0.5, 1300);
         turn(-90);
         //drives into build zone
         back(51 - offset);
@@ -117,8 +120,10 @@ public class BlueQuarryAuto extends AlmondLinear {
         while (timer.milliseconds() < 500&&!isStopRequested()) {
         }
 
-        forward(4);
+        forward(8);
 
+
+        driveSideways(-0.5, 800);
     }
 
 }

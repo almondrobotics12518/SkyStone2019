@@ -162,7 +162,7 @@ public abstract class AlmondLinear extends LinearOpMode {
 
         hook.extend();
         time.reset();
-        while (time.milliseconds() < 500) {
+        while (time.milliseconds() < 500 && !isStopRequested()) {
         }
 
         driveSideways(-0.5, 1000);

@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
+import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
@@ -16,9 +17,13 @@ public class TeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException{
         boolean aWasPressed = false;
+        boolean yWasZero = true;
+
 
         DcMotor arm = hardwareMap.get(DcMotor.class,"arm");
         DcMotor wrist = hardwareMap.get(DcMotor.class,"wrist");
+
+        Claw claw = new Claw(hardwareMap);
 
         Intake intake = new Intake(hardwareMap);
 
@@ -55,11 +60,19 @@ public class TeleOp extends LinearOpMode {
 
 
 
-            arm.setPower(-gamepad2.right_stick_y*0.75);
-            wrist.setPower((gamepad2.left_trigger-gamepad2.right_trigger)*0.5);
+            arm.setPower(-gamepad2.right_stick_y*0.7);
+            wrist.setPower(gamepad2.left_stick_y*0.5);
 
             drive.updatePoseEstimate();
 
+
+            if(gamepad2.right_bumper){
+                claw.retract();
+            }
+
+            if(gamepad2.left_bumper){
+                claw.extend();
+            }
 
         }
     }

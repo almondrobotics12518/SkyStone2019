@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.util.Angle;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.vuforia.CameraDevice;
 
 
 import org.firstinspires.ftc.teamcode.opmodes.AlmondLinear;
@@ -47,6 +48,7 @@ public class RedQuarryAuto extends AlmondLinear {
         turn(-90);
 
 
+        CameraDevice.getInstance().setFlashTorchMode(true);
         timer.reset();
         while (timer.milliseconds() < 1000&&!isStopRequested()) {
             Nav();
@@ -68,10 +70,13 @@ public class RedQuarryAuto extends AlmondLinear {
                 isLastStone = true;
             }
         }
+        CameraDevice.getInstance().setFlashTorchMode(false);
 
-        forward(4);
+        forward(3);
 
         intake();
+        driveSideways(-0.5,300);
+        turn(-90);
         //drives into build zone
         forward(48 + offset);
 
@@ -84,20 +89,21 @@ public class RedQuarryAuto extends AlmondLinear {
             offset = 8;
         }
         //drives back to quarry for second stone
-        back(71 + offset);
+        back(72 + offset);
         //drives into quarry to pick up stone
         intake();
 
         //drives into build zone again
-        forward(71 + offset - 8);
+        forward(72 + offset - 8);
 
         hook.retract();
         timer.reset();
         while (timer.milliseconds() < 500&&!isStopRequested()) {
         }
 
-        back(8);
+        back(12);
 
+        driveSideways(0.5, 800);
     }
 
 }
