@@ -123,7 +123,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         forward(8);
 
 
-        driveSideways(-0.5, 800);
+        driveSideways(0.5, 800);
     }
 
 }
