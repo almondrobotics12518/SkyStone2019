@@ -220,5 +220,34 @@ public abstract class AlmondLinear extends LinearOpMode {
 
         drive.setDrivePower(new Pose2d());
     }
+
+    /**
+     * Moves in a spline to a relative pose
+     * @param target pose
+     */
+    public void splineTo(Pose2d target,boolean reverse){
+        drive.updatePoseEstimate();
+        Pose2d currentPose=drive.getPoseEstimate();
+        if(!reverse) {
+            drive.followTrajectory(
+                    drive.trajectoryBuilder().
+                            splineTo(new Pose2d(currentPose.getX() + target.getX(),
+                                    currentPose.getY() + target.getY(),
+                                    currentPose.getHeading() + target.getHeading())).
+                            build()
+            );
+        } else {
+            drive.followTrajectory(
+                    drive.trajectoryBuilder().
+                            reverse().
+                            splineTo(new Pose2d(currentPose.getX() + target.getX(),
+                                    currentPose.getY() + target.getY(),
+                                    currentPose.getHeading() + target.getHeading())).
+                            build());
+        }
+        while(!isStopRequested()&&drive.isBusy()){
+            drive.update();
+        }
+    }
 }
 
