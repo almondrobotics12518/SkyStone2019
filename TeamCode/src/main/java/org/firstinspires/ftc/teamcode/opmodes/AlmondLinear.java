@@ -145,7 +145,7 @@ public abstract class AlmondLinear extends LinearOpMode {
 
     /**
      * this methos is used to turn to an absolute angle
-     * @param degrees to turn in an absolute angle
+     * @param degrees to turn in an absolute angle, Counter clockwise is positive and clockwise is negative
      */
     public void turn(double degrees){
         drive.turn(Angle.normDelta(Math.toRadians(degrees)-drive.getPoseEstimate().getHeading()));
@@ -187,7 +187,7 @@ public abstract class AlmondLinear extends LinearOpMode {
 
 
     /**
-     *
+     * Moves a certain number of inches backwards
      * @param inches to go backwards
      */
     public void back(double inches){
@@ -200,6 +200,12 @@ public abstract class AlmondLinear extends LinearOpMode {
             drive.update();
         }
     }
+
+    /**
+     * Method to make the robot move sideways at a certain power for a time
+     * @param power What power to set to the motors, left is positive, right is negative
+     * @param millis How many milliseconds to set the power for
+     */
 
     public void driveSideways(double power, int millis){
         ElapsedTime t = new ElapsedTime();

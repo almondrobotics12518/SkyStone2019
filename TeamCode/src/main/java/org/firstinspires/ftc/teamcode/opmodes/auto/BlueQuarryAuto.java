@@ -86,7 +86,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         driveSideways(-0.5, 1300);
         turn(-90);
         //drives into build zone
-        back(51 - offset);
+        back(56 - offset);
 
         hook.retract();
         timer.reset();
@@ -98,7 +98,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         }
 
         //drives back to quarry for second stone
-        forward(75 - offset);
+        forward(80 - offset);
         //drives into quarry to pick up stone
         driveSideways(0.5, 1000);
         turn(-90);
@@ -113,7 +113,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         turn(-90);
 
         //drives into build zone again
-        back(75 - offset);
+        back(80 - offset);
 
         hook.retract();
         timer.reset();
