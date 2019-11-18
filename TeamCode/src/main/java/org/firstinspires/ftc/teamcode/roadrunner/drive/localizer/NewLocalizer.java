@@ -31,8 +31,8 @@ public class NewLocalizer implements Localizer {
 
     private ExpansionHubMotor leftFront, leftRear, rightFront, rightRear;
 
-    private List<Double> lastWheelPositions = Arrays.asList(0.0,0.0,0.0,0.0);
-    private List<Double> currentWheelPositions = Arrays.asList(0.0,0.0,0.0,0.0);
+    private List<Double> lastWheelPositions;
+    private List<Double> currentWheelPositions;
     private double lastHeading=0, currentHeading=0;
     private double headingOffset=0;
     private double deltaX, deltaY;
@@ -56,8 +56,9 @@ public class NewLocalizer implements Localizer {
         leftRear = hardwareMap.get(ExpansionHubMotor.class, "leftRear");
         rightRear = hardwareMap.get(ExpansionHubMotor.class, "rightRear");
         rightFront = hardwareMap.get(ExpansionHubMotor.class, "rightFront");
-    }
 
+        lastWheelPositions = getWheelPositions();
+    }
 
     public void update(){
         if(imu!=null) {

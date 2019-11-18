@@ -73,7 +73,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         }
         CameraDevice.getInstance().setFlashTorchMode(false);
 
-        forward(3);
+        forward(6);
 
         driveSideways(0.5, 1000);
         turn(-90);

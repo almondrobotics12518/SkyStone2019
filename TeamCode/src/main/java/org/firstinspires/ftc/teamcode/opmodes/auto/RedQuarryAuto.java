@@ -72,7 +72,7 @@ public class RedQuarryAuto extends AlmondLinear {
         }
         CameraDevice.getInstance().setFlashTorchMode(false);
 
-        forward(3);
+        forward(4.5);
 
         intake();
         driveSideways(-0.5,300);
