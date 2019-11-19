@@ -50,9 +50,7 @@ public class RedFoundationAuto extends AlmondLinear {
         back(1);
         turn(0);
 
-        driveSideways(0.5,700);
-
-        forward(39);
+        forward(35);
 
         claw.retract();
 
@@ -62,7 +60,7 @@ public class RedFoundationAuto extends AlmondLinear {
 
         while(totalTime.milliseconds()<23000&&!isStopRequested()){}
 
-        driveSideways(-0.5,5500);
+        driveSideways(-0.5,4500);
     }
 
 }

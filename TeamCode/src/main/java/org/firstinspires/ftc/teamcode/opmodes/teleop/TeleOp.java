@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.PIDCoefficients;
 
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
+import org.firstinspires.ftc.teamcode.subsystems.Hook;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 
 
@@ -28,6 +29,8 @@ public class TeleOp extends LinearOpMode {
         Intake intake = new Intake(hardwareMap);
 
         MecanumDrive drive = new DriveTrain(hardwareMap);
+
+        Hook hook = new Hook(hardwareMap);
 
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         wrist.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -58,13 +61,8 @@ public class TeleOp extends LinearOpMode {
                 aWasPressed = false;
             }
 
-
-
             arm.setPower(-gamepad2.right_stick_y*0.7);
             wrist.setPower(gamepad2.left_stick_y*0.5);
-
-            drive.updatePoseEstimate();
-
 
             if(gamepad2.right_bumper){
                 claw.retract();
@@ -73,6 +71,14 @@ public class TeleOp extends LinearOpMode {
             if(gamepad2.left_bumper){
                 claw.extend();
             }
+
+            if(gamepad2.b){
+                hook.extend();
+            }
+            if(gamepad2.x){
+                hook.retract();
+            }
+
 
         }
     }
