@@ -109,6 +109,10 @@ public class NewLocalizer implements Localizer {
 
     }
 
+    /**
+     * gets the wheel positions in inches
+     * @return a list of wheel positions
+     */
     public List<Double> getWheelPositions(){
 
         RevBulkData bulkData = hub.getBulkInputData();

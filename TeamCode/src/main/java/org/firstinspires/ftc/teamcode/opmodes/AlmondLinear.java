@@ -32,6 +32,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
+/*
+ * This opmode is used as skeleton that has methods that make making other opmodes more convenient
+ */
+
 public abstract class AlmondLinear extends LinearOpMode {
 
     public VuforiaTrackables targetsSkyStone;
@@ -51,6 +55,15 @@ public abstract class AlmondLinear extends LinearOpMode {
     private static final float mmPerInch = 25.4f;
     public VuforiaLocalizer vuforia;
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
+
+
+
+
+
+
+
+
 
     //private TFObjectDetector tfod;
 
@@ -95,10 +108,11 @@ public abstract class AlmondLinear extends LinearOpMode {
         targetsSkyStone.activate();
 
     }
+
+    /**
+     * Code for vurforia that we run in a loop to detect skystone
+     */
     public void Nav() {
-
-
-
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
