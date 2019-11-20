@@ -6,7 +6,7 @@ import com.qualcomm.hardware.motors.NeveRest20Gearmotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 /*
- * Constants shared between multiple drive types.
+ * Constants used for feedforward control of the robot
  */
 @Config
 public class DriveConstants {
