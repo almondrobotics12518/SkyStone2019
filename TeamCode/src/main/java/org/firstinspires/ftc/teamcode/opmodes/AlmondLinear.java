@@ -38,6 +38,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 public abstract class AlmondLinear extends LinearOpMode {
 
+
+    public boolean skystoneVisible = false;
     public VuforiaTrackables targetsSkyStone;
     public SampleMecanumDrive drive;
     public Hook hook;
@@ -119,7 +121,6 @@ public abstract class AlmondLinear extends LinearOpMode {
                 if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                     telemetry.addData("Visible Target", trackable.getName());
                     targetVisible = true;
-
                     // getUpdatedRobotLocation() will return null if no new information is available since
                     // the last time that call was made, or if the trackable is not currently visible.
                     OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getVuforiaCameraFromTarget();
@@ -139,6 +140,10 @@ public abstract class AlmondLinear extends LinearOpMode {
 
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                if(Math.abs(translation.get(1)/mmPerInch)<3){
+                    skystoneVisible = true;
+                }
+
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             }
             else {
@@ -228,10 +233,7 @@ public abstract class AlmondLinear extends LinearOpMode {
                 new Pose2d(0,power,0)
         );
 
-        while(!isStopRequested() && isStarted() && t.milliseconds()<millis){
-            drive.updatePoseEstimate();
-        }
-
+        while(t.milliseconds()<millis){}
         drive.setDrivePower(new Pose2d());
     }
 

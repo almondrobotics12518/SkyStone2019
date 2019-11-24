@@ -10,11 +10,11 @@ import org.openftc.revextensions2.ExpansionHubEx;
 @Config
 public class Claw {
 
-    public static double LEFT_EXTEND_POSITION = 1;
-    public static double LEFT_RETRACT_POSITION = 0.7;
+    public static double LEFT_EXTEND_POSITION = 0.7;
+    public static double LEFT_RETRACT_POSITION = 1;
 
-    public static double RIGHT_RETRACT_POSITION = 0.9;
-    public static double RIGHT_EXTEND_POSITION = 0.5;
+    public static double RIGHT_RETRACT_POSITION = 0.3;
+    public static double RIGHT_EXTEND_POSITION = 0.7;
 
     public Servo clawLeft;
     public Servo clawRight;

@@ -54,7 +54,7 @@ public class BlueQuarryAuto extends AlmondLinear {
             Nav();
         }
 
-        if (targetVisible) {
+        if (skystoneVisible) {
             offset = 0;
             isLastStone = true;
         } else {
@@ -63,7 +63,7 @@ public class BlueQuarryAuto extends AlmondLinear {
             while (timer.milliseconds() < 1000&&!isStopRequested()) {
                 Nav();
             }
-            if (targetVisible) {
+            if (skystoneVisible) {
                 offset = 8;
             } else {
                 back(8);
@@ -73,7 +73,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         }
         CameraDevice.getInstance().setFlashTorchMode(false);
 
-        forward(6);
+        forward(5);
 
         driveSideways(0.5, 1000);
         turn(-90);

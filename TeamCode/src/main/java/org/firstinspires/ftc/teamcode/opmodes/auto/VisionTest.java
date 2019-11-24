@@ -26,13 +26,8 @@ public class VisionTest extends AlmondLinear {
 
         waitForStart();
 
-        if (opModeIsActive()) {
-
-            timer.reset();
-            while (opModeIsActive()&& timer.milliseconds()<2000) {
-                Nav();
-            }
-
+        while(opModeIsActive()){
+            Nav();
 
         }
 

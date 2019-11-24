@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.acmerobotics.roadrunner.drive.Drive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.acmerobotics.roadrunner.trajectory.TrajectoryBuilder;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -35,7 +36,8 @@ public class RedFoundationAuto extends AlmondLinear {
         drive.followTrajectory(
                 drive.trajectoryBuilder().
                         reverse().
-                        splineTo(new Pose2d(-35,16,0)).
+                        splineTo(new Pose2d(-30,10,0)).
+                        lineTo(new Vector2d(-35,10)).
                         build()
         );
 
@@ -50,17 +52,19 @@ public class RedFoundationAuto extends AlmondLinear {
         back(1);
         turn(0);
 
-        forward(35);
+        forward(33.5);
+        turn(-30);
 
         claw.retract();
 
         timer.reset();
-        while(timer.milliseconds()<2000&&!isStopRequested()&&isStarted()){}
+        while(timer.milliseconds()<1000&&!isStopRequested()&&isStarted()){}
 
+        turn(0);
 
         while(totalTime.milliseconds()<23000&&!isStopRequested()){}
 
-        driveSideways(-0.5,4500);
+        driveSideways(-0.5,4000);
     }
 
 }

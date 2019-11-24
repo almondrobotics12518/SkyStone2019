@@ -53,32 +53,35 @@ public class RedQuarryAuto extends AlmondLinear {
         while (timer.milliseconds() < 1000&&!isStopRequested()) {
             Nav();
         }
-
-        if (targetVisible) {
+        double yeet;
+        if (skystoneVisible) {
             offset = 0;
+            yeet = 1;
         } else {
+            yeet = 0;
             back(8);
             timer.reset();
             while (timer.milliseconds() < 1000&&!isStopRequested()) {
                 Nav();
             }
-            if (targetVisible) {
+            if (skystoneVisible) {
                 offset = 8;
             } else {
-                back(7);
-                offset = 15;
+                back(8);
+                offset = 16;
                 isLastStone = true;
             }
         }
         CameraDevice.getInstance().setFlashTorchMode(false);
 
-        forward(4.5);
+        forward(5.5+yeet);
 
         intake();
         driveSideways(-0.5,300);
         turn(-90);
         //drives into build zone
         forward(48 + offset);
+        turn(-90);
 
         hook.retract();
         timer.reset();
@@ -89,12 +92,14 @@ public class RedQuarryAuto extends AlmondLinear {
             offset = 8;
         }
         //drives back to quarry for second stone
-        back(72 + offset);
+        back(74 + offset);
+        turn(-90);
         //drives into quarry to pick up stone
         intake();
 
         //drives into build zone again
-        forward(72 + offset - 8);
+        forward(74 + offset - 8);
+        turn(-90);
 
         hook.retract();
         timer.reset();
@@ -102,8 +107,10 @@ public class RedQuarryAuto extends AlmondLinear {
         }
 
         back(12);
+        turn(-90);
 
         driveSideways(0.5, 800);
+        turn(-90);
     }
 
 }
