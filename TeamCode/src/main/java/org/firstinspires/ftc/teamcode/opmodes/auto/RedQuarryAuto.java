@@ -74,7 +74,7 @@ public class RedQuarryAuto extends AlmondLinear {
         }
         CameraDevice.getInstance().setFlashTorchMode(false);
 
-        forward(5.5+yeet);
+        forward(5+yeet);
 
         intake();
         driveSideways(-0.5,300);
@@ -92,7 +92,7 @@ public class RedQuarryAuto extends AlmondLinear {
             offset = 8;
         }
         //drives back to quarry for second stone
-        back(74 + offset);
+        back(73.5 + offset);
         turn(-90);
         //drives into quarry to pick up stone
         intake();
@@ -109,7 +109,7 @@ public class RedQuarryAuto extends AlmondLinear {
         back(12);
         turn(-90);
 
-        driveSideways(0.5, 800);
+        driveSideways(0.5, 1000);
         turn(-90);
     }
 

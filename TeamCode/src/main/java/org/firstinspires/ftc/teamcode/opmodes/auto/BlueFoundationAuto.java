@@ -48,7 +48,7 @@ public class BlueFoundationAuto extends AlmondLinear {
         back(1);
         claw.extend();
         timer.reset();
-        while(timer.milliseconds()<1000&&!isStopRequested()&&isStarted()){}
+        while(timer.milliseconds()<1000 && !isStopRequested() && isStarted()){}
         back(1);
         turn(0);
 
@@ -59,11 +59,11 @@ public class BlueFoundationAuto extends AlmondLinear {
 
 
         timer.reset();
-        while(timer.milliseconds()<1000&&!isStopRequested()&&isStarted()){}
+        while(timer.milliseconds()<1000 && !isStopRequested() && isStarted()){}
 
         turn(0);
 
-        while(totalTime.milliseconds()<23000&&!isStopRequested()){}
+        while(totalTime.milliseconds()<23000 && !isStopRequested()){}
 
         driveSideways(0.5,4000);
     }

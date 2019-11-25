@@ -55,7 +55,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         }
 
         if (skystoneVisible) {
-            offset = 0;
+            offset = 1;
             isLastStone = true;
         } else {
             back(8);
@@ -80,7 +80,7 @@ public class BlueQuarryAuto extends AlmondLinear {
 
         hook.extend();
         timer.reset();
-        while (timer.milliseconds() < 500) {
+        while (timer.milliseconds() < 500 && !isStopRequested()) {
         }
 
         driveSideways(-0.5, 1300);
@@ -90,7 +90,7 @@ public class BlueQuarryAuto extends AlmondLinear {
 
         hook.retract();
         timer.reset();
-        while (timer.milliseconds() < 500) {
+        while (timer.milliseconds() < 500 && !isStopRequested()) {
         }
 
         if(isLastStone){
@@ -123,7 +123,7 @@ public class BlueQuarryAuto extends AlmondLinear {
         forward(8);
 
 
-        driveSideways(0.5, 800);
+        driveSideways(0.5, 1000);
     }
 
 }
