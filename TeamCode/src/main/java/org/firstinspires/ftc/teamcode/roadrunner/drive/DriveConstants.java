@@ -6,7 +6,7 @@ import com.qualcomm.hardware.motors.NeveRest20Gearmotor;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 /*
- * Constants shared between multiple drive types.
+ * Constants used for feedforward control of the robot
  */
 @Config
 public class DriveConstants {
@@ -18,18 +18,18 @@ public class DriveConstants {
 
     public static double WHEEL_RADIUS = 2;
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 14.3;
+    public static double TRACK_WIDTH = 14.8;
 
     /*
      * Tune these!!!!
      */
-    public static double kV = 0.03;
+    public static double kV = 0.022;
     public static double kA = 0;
     public static double kStatic = 0;
 
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            30.0, 30.0, 0.0,
+            35.0, 35.0, 0.0,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 

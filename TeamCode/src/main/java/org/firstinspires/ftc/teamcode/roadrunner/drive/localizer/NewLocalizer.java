@@ -24,6 +24,11 @@ import java.util.List;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.TRACK_WIDTH;
 import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.encoderTicksToInches;
 
+
+/*
+ * This class holds the localization code based on motor encoders.
+ *
+ */
 public class NewLocalizer implements Localizer {
 
     private ExpansionHubEx hub;
@@ -31,13 +36,18 @@ public class NewLocalizer implements Localizer {
 
     private ExpansionHubMotor leftFront, leftRear, rightFront, rightRear;
 
-    private List<Double> lastWheelPositions = Arrays.asList(0.0,0.0,0.0,0.0);
-    private List<Double> currentWheelPositions = Arrays.asList(0.0,0.0,0.0,0.0);
+    private List<Double> lastWheelPositions;
+    private List<Double> currentWheelPositions;
     private double lastHeading=0, currentHeading=0;
     private double headingOffset=0;
     private double deltaX, deltaY;
     private Pose2d poseEstimate = new Pose2d(0,0,0),lastPoseEstimate=new Pose2d(0,0,0);
 
+
+    /*
+     * This constructor initializes everything (the imu calibration code is blocking and shouldn't be there)
+     *
+     */
     public NewLocalizer(HardwareMap hardwareMap){
 
         hub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 1");
@@ -56,14 +66,17 @@ public class NewLocalizer implements Localizer {
         leftRear = hardwareMap.get(ExpansionHubMotor.class, "leftRear");
         rightRear = hardwareMap.get(ExpansionHubMotor.class, "rightRear");
         rightFront = hardwareMap.get(ExpansionHubMotor.class, "rightFront");
+
+        lastWheelPositions = getWheelPositions();
     }
 
-
     public void update(){
+        //makes sure that imu is initialized
         if(imu!=null) {
             currentHeading = getHeading();
         } else { currentHeading = lastHeading; }
 
+        //Sets the wheel positions to a variable then finds the change in wheel positions
         currentWheelPositions = getWheelPositions();
         List<Double> wheelDeltas = Arrays.asList(currentWheelPositions.get(0)-lastWheelPositions.get(0),
                 currentWheelPositions.get(1)-lastWheelPositions.get(1),
@@ -75,22 +88,31 @@ public class NewLocalizer implements Localizer {
             robotDeltaX += position / 4;
         }
 
+        //currently not using y delta because of drift caused by mecanum drive
         double robotDeltaY = 0;
+
+        //Rotates the relative robot position change to global position change
 
         deltaX = Math.cos(lastHeading)*robotDeltaX-Math.sin(lastHeading)*robotDeltaY;
         deltaY = Math.sin(lastHeading)*robotDeltaX+Math.cos(lastHeading)*robotDeltaY;
 
+        //returns the new global position by adding the changes in position
         poseEstimate = new Pose2d(
                 poseEstimate.getX()+deltaX,
                 poseEstimate.getY()+deltaY,
                 currentHeading
         );
 
+        //Sets the last positions and variables to the current for next loop iteration
         lastWheelPositions = currentWheelPositions;
         lastHeading = currentHeading;
 
     }
 
+    /**
+     * gets the wheel positions in inches
+     * @return a list of wheel positions
+     */
     public List<Double> getWheelPositions(){
 
         RevBulkData bulkData = hub.getBulkInputData();

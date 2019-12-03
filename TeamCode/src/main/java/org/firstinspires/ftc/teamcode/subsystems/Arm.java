@@ -7,7 +7,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.openftc.revextensions2.RevBulkData;
-
+/*
+ * This class holds all control that our arm will need
+ * It uses position PID in order to move the arm to a certain position autonomously
+ *
+ */
 @Config
 public class Arm {
 

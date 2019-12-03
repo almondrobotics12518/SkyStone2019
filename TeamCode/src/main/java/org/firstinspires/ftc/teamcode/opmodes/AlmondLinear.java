@@ -32,8 +32,14 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
+/*
+ * This opmode is used as skeleton that has methods that make making other opmodes more convenient
+ */
+
 public abstract class AlmondLinear extends LinearOpMode {
 
+
+    public boolean skystoneVisible = false;
     public VuforiaTrackables targetsSkyStone;
     public SampleMecanumDrive drive;
     public Hook hook;
@@ -46,11 +52,20 @@ public abstract class AlmondLinear extends LinearOpMode {
     private static final String LABEL_FIRST_ELEMENT = "Stone";
     private static final String LABEL_SECOND_ELEMENT = "Skystone";
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
-    private boolean targetVisible = false;
+    public boolean targetVisible = false;
     private OpenGLMatrix lastLocation = null;
     private static final float mmPerInch = 25.4f;
     public VuforiaLocalizer vuforia;
     List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
+
+
+
+
+
+
+
+
+
 
     //private TFObjectDetector tfod;
 
@@ -95,17 +110,17 @@ public abstract class AlmondLinear extends LinearOpMode {
         targetsSkyStone.activate();
 
     }
+
+    /**
+     * Code for vurforia that we run in a loop to detect skystone
+     */
     public void Nav() {
-
-
-
             // check all the trackable targets to see which one (if any) is visible.
             targetVisible = false;
             for (VuforiaTrackable trackable : allTrackables) {
                 if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                     telemetry.addData("Visible Target", trackable.getName());
                     targetVisible = true;
-
                     // getUpdatedRobotLocation() will return null if no new information is available since
                     // the last time that call was made, or if the trackable is not currently visible.
                     OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getVuforiaCameraFromTarget();
@@ -125,6 +140,10 @@ public abstract class AlmondLinear extends LinearOpMode {
 
                 // express the rotation of the robot in degrees.
                 Orientation rotation = Orientation.getOrientation(lastLocation, EXTRINSIC, XYZ, DEGREES);
+                if(Math.abs(translation.get(1)/mmPerInch)<3){
+                    skystoneVisible = true;
+                }
+
                 telemetry.addData("Rot (deg)", "{Roll, Pitch, Heading} = %.0f, %.0f, %.0f", rotation.firstAngle, rotation.secondAngle, rotation.thirdAngle);
             }
             else {
@@ -145,13 +164,28 @@ public abstract class AlmondLinear extends LinearOpMode {
 
     /**
      * this methos is used to turn to an absolute angle
-     * @param degrees to turn in an absolute angle
+     * @param degrees to turn in an absolute angle, Counter clockwise is positive and clockwise is negative
      */
     public void turn(double degrees){
         drive.turn(Angle.normDelta(Math.toRadians(degrees)-drive.getPoseEstimate().getHeading()));
         while(drive.isBusy()&&isStarted()&&!isStopRequested()){
             drive.update();
         }
+    }
+
+    public void intake(){
+        ElapsedTime time = new ElapsedTime();
+
+        driveSideways(0.5, 1000);
+        turn(-90);
+
+        hook.extend();
+        time.reset();
+        while (time.milliseconds() < 500 && !isStopRequested()) {
+        }
+
+        driveSideways(-0.5, 1000);
+        turn(-90);
     }
 
 
@@ -172,7 +206,7 @@ public abstract class AlmondLinear extends LinearOpMode {
 
 
     /**
-     *
+     * Moves a certain number of inches backwards
      * @param inches to go backwards
      */
     public void back(double inches){
@@ -186,6 +220,12 @@ public abstract class AlmondLinear extends LinearOpMode {
         }
     }
 
+    /**
+     * Method to make the robot move sideways at a certain power for a time
+     * @param power What power to set to the motors, left is positive, right is negative
+     * @param millis How many milliseconds to set the power for
+     */
+
     public void driveSideways(double power, int millis){
         ElapsedTime t = new ElapsedTime();
         t.reset();
@@ -193,11 +233,37 @@ public abstract class AlmondLinear extends LinearOpMode {
                 new Pose2d(0,power,0)
         );
 
-        while(!isStopRequested() && isStarted() && t.milliseconds()<millis){
-            drive.updatePoseEstimate();
-        }
-
+        while(t.milliseconds()<millis){}
         drive.setDrivePower(new Pose2d());
+    }
+
+    /**
+     * Moves in a spline to a relative pose
+     * @param target pose
+     */
+    public void splineTo(Pose2d target,boolean reverse){
+        drive.updatePoseEstimate();
+        Pose2d currentPose=drive.getPoseEstimate();
+        if(!reverse) {
+            drive.followTrajectory(
+                    drive.trajectoryBuilder().
+                            splineTo(new Pose2d(currentPose.getX() + target.getX(),
+                                    currentPose.getY() + target.getY(),
+                                    currentPose.getHeading() + target.getHeading())).
+                            build()
+            );
+        } else {
+            drive.followTrajectory(
+                    drive.trajectoryBuilder().
+                            reverse().
+                            splineTo(new Pose2d(currentPose.getX() + target.getX(),
+                                    currentPose.getY() + target.getY(),
+                                    currentPose.getHeading() + target.getHeading())).
+                            build());
+        }
+        while(!isStopRequested()&&drive.isBusy()){
+            drive.update();
+        }
     }
 }
 
