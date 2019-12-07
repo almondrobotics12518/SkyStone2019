@@ -15,12 +15,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
-import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
-import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleMecanumDrive;
-import org.firstinspires.ftc.teamcode.roadrunner.drive.tank.SampleTankDriveBase;
-import org.firstinspires.ftc.teamcode.subsystems.Claw;
-import org.firstinspires.ftc.teamcode.subsystems.Hook;
+
 
 
 import java.util.ArrayList;
@@ -28,7 +24,6 @@ import java.util.List;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
@@ -42,8 +37,6 @@ public abstract class AlmondLinear extends LinearOpMode {
     public boolean skystoneVisible = false;
     public VuforiaTrackables targetsSkyStone;
     public SampleMecanumDrive drive;
-    public Hook hook;
-    public Claw claw;
     public long timeElapsed;
 
     public static final String VUFORIA_KEY =
@@ -179,7 +172,6 @@ public abstract class AlmondLinear extends LinearOpMode {
         driveSideways(0.5, 1000);
         turn(-90);
 
-        hook.extend();
         time.reset();
         while (time.milliseconds() < 500 && !isStopRequested()) {
         }
