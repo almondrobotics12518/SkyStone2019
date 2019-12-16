@@ -7,6 +7,7 @@ import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
+import com.disnodeteam.dogecv.detectors.DogeCVDetector;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
@@ -18,20 +19,27 @@ import org.openftc.easyopencv.OpenCvPipeline;
 public class AlmondPipeline extends LinearOpMode {
 
     OpenCvCamera phoneCam;
+    CustomSkystoneDetector detector;
 
     @Override
     public void runOpMode() {
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.FRONT, cameraMonitorViewId);
+        phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
+
+        detector = new CustomSkystoneDetector();
+        detector.useDefaults();
 
         phoneCam.openCameraDevice();
-        phoneCam.setPipeline(new Pipeline());
+        phoneCam.setPipeline(detector);
 
         waitForStart();
 
+        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+
         while(opModeIsActive()){
-            phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+           telemetry.addLine(String.valueOf(detector.foundRectangle().x+detector.foundRectangle().width/2));
+           telemetry.update();
         }
 
         if(!opModeIsActive()){
