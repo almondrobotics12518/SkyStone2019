@@ -20,17 +20,20 @@ import org.openftc.revextensions2.ExpansionHubEx;
 public class LiftExt {
 
     public static PIDCoefficients PID = new PIDCoefficients(0,0,0);
+    public static double MAX_RPM = 117;
 
-    public static double maxPos = 10;
+    public static double LIFT_STAGES = 3;
+
+    public static double maxPos = 36;
     public static double maxVel = 10;
     public static double maxAccel = 10;
-    public static double maxJerk = 10;
+    public static double maxJerk = 0;
 
     public static double kV = 0;
     public static double kA = 0;
     public static double kStatic = 0;
 
-    public static double TICKS_PER_REV = 576.4;
+    public static double TICKS_PER_REV = 1425.2;
     public static double SPOOL_RADIUS = 2;
 
     private PIDFController controller;
@@ -48,7 +51,7 @@ public class LiftExt {
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        //lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         controller = new PIDFController(PID,kV,kA,kStatic);
         offset = lift.getCurrentPosition();
@@ -92,10 +95,22 @@ public class LiftExt {
     }
 
     public static double encoderTicksToInches(double ticks){
-        return SPOOL_RADIUS * 2 * Math.PI / TICKS_PER_REV;
+        return SPOOL_RADIUS * 2 * Math.PI * LIFT_STAGES / TICKS_PER_REV;
     }
 
     public void setPower(double power){
         lift.setPower(power);
+    }
+
+    public void setMode(DcMotor.RunMode mode){
+        lift.setMode(mode);
+    }
+
+    public static double getMaxRpm(){
+        return MAX_RPM;
+    }
+
+    public static double rpmToVelocity(double rpm){
+        return rpm * 2 * Math.PI * LIFT_STAGES;
     }
 }

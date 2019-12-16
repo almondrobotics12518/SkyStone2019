@@ -26,24 +26,24 @@ public class Intake{
         motorRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
 
-    public void setPower(double leftPower, double rightPower){
-        motorLeft.setPower(leftPower);
-        motorRight.setPower(rightPower);
+    public void setPower(double power){
+        motorLeft.setPower(power);
+        motorRight.setPower(power);
     }
 
     public void intake(){
-        setPower(1,1);
+        setPower(1);
         if(getVelocity()<threshold){
-            setPower(0.5,0.5);
+            setPower(0.5);
         }
     }
-    
+
     public double getVelocity(){
         return motorLeft.getVelocity();
     }
 
     public void outtake(){
-        setPower(-1,-1);
+        setPower(-1);
     }
 
 }
