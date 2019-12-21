@@ -24,18 +24,20 @@ public class AlmondPipeline extends LinearOpMode {
     @Override
     public void runOpMode() {
 
+        // define camera/detector
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         phoneCam = OpenCvCameraFactory.getInstance().createInternalCamera(OpenCvInternalCamera.CameraDirection.BACK, cameraMonitorViewId);
-
         detector = new CustomSkystoneDetector();
         detector.useDefaults();
 
         phoneCam.openCameraDevice();
         phoneCam.setPipeline(detector);
 
+
         waitForStart();
 
-        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.SIDEWAYS_LEFT);
+        // turn on camera
+        phoneCam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
 
         while(opModeIsActive()){
            telemetry.addLine(String.valueOf(detector.foundRectangle().x+detector.foundRectangle().width/2));
@@ -47,9 +49,9 @@ public class AlmondPipeline extends LinearOpMode {
         }
 
 
-
-
     }
+
+
     class Pipeline extends OpenCvPipeline {
         @Override
         public Mat processFrame(Mat input){
