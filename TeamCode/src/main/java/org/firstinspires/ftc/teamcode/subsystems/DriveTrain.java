@@ -44,14 +44,12 @@ public class DriveTrain extends SampleMecanumDrive {
 
         hub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 1");
 
-        /*imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
+        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
         //imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
 
-        while(!imu.isGyroCalibrated()){ }
-*/
         leftFront = hardwareMap.get(ExpansionHubMotor.class, "leftFront");
         leftRear = hardwareMap.get(ExpansionHubMotor.class, "leftRear");
         rightRear = hardwareMap.get(ExpansionHubMotor.class, "rightRear");
@@ -70,7 +68,7 @@ public class DriveTrain extends SampleMecanumDrive {
 
         setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, VELOCITY_PID);
 
-        setLocalizer(new NewLocalizer(hardwareMap));
+        //setLocalizer(new NewLocalizer(hardwareMap));
     }
 
     @Override
@@ -114,9 +112,9 @@ public class DriveTrain extends SampleMecanumDrive {
 
     @Override
     public double getRawExternalHeading() {
-        return (imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX,AngleUnit.RADIANS).firstAngle+(2*Math.PI))%(2*Math.PI);
+        return imu.getAngularOrientation().firstAngle;
     }
 
     @Override
-    public Orientation getOrientation() {return imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES); }
+    public Orientation getOrientation() {return imu.getAngularOrientation(); }
 }

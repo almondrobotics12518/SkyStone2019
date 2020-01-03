@@ -11,25 +11,25 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 @Config
 public class DriveConstants {
 
-
     private static final MotorConfigurationType MOTOR_CONFIG =
             MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
     private static final double TICKS_PER_REV = 537.6;
 
     public static double WHEEL_RADIUS = 2;
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 14.8;
+    public static double TRACK_WIDTH = 14.3;
 
     /*
      * Tune these!!!!
      */
-    public static double kV = 0.022;
+
+    public static double kV = 0.018;
     public static double kA = 0;
     public static double kStatic = 0;
 
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            35.0, 35.0, 0.0,
+            45.0, 35.0, 0.0,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 
