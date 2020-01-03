@@ -13,9 +13,6 @@ public class Intake{
      * You should be facing the same way that the intake is facing.
      */
 
-    private boolean stoneInside = false;
-    public static double threshold = 1500;
-
     private DcMotorEx motorLeft;
     private DcMotorEx motorRight;
 
@@ -33,14 +30,9 @@ public class Intake{
 
     public void intake(){
         setPower(1);
-        if(getVelocity()<threshold){
-            setPower(0.5);
-        }
+
     }
 
-    public double getVelocity(){
-        return motorLeft.getVelocity();
-    }
 
     public void outtake(){
         setPower(-1);

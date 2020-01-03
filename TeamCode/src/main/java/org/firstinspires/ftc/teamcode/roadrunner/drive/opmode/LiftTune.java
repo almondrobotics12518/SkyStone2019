@@ -26,7 +26,7 @@ import org.firstinspires.ftc.teamcode.roadrunner.util.LoggingUtil;
 @Autonomous(group = "elevator")
 public class LiftTune extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
-    public static final double DISTANCE = 0.75 * 24;
+    public static final double DISTANCE = 30;
 
     @Override
     public void runOpMode() throws InterruptedException {

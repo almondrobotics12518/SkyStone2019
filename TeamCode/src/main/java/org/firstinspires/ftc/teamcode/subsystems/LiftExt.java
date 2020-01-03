@@ -13,28 +13,30 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.openftc.revextensions2.ExpansionHubEx;
 
 @Config
 public class LiftExt {
 
-    public static PIDCoefficients PID = new PIDCoefficients(0,0,0);
-    public static double MAX_RPM = 117;
+    public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(30,0,0);
+    public static PIDCoefficients PID = new PIDCoefficients(0.05,0.00001,0);
+    public static double MAX_RPM = 312;
 
-    public static double LIFT_STAGES = 3;
+    public static double LIFT_STAGES = 1;
 
     public static double maxPos = 36;
-    public static double maxVel = 10;
-    public static double maxAccel = 10;
+    public static double maxVel = 20;
+    public static double maxAccel = 15;
     public static double maxJerk = 0;
 
-    public static double kV = 0;
+    public static double kV = 0.047;
     public static double kA = 0;
     public static double kStatic = 0;
 
-    public static double TICKS_PER_REV = 1425.2;
-    public static double SPOOL_RADIUS = 2;
+    public static double TICKS_PER_REV = 537.6;
+    public static double SPOOL_RADIUS = 0.75;
 
     private PIDFController controller;
     private DcMotorEx lift;
@@ -45,13 +47,17 @@ public class LiftExt {
     private int offset;
 
     public LiftExt(LinearOpMode opmode){
-        hub = opmode.hardwareMap.get(ExpansionHubEx.class,"Expansion Hub ");
+        hub = opmode.hardwareMap.get(ExpansionHubEx.class,"Expansion Hub 2");
 
-        lift = opmode.hardwareMap.get(DcMotorEx.class, "lift");
+        lift = opmode.hardwareMap.get(DcMotorEx.class, "verticalLift");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        //lift.setDirection(DcMotorSimple.Direction.REVERSE);
+        lift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(
+                VELOCITY_PID.kP,VELOCITY_PID.kI,VELOCITY_PID.kD,1
+        ));
+
+        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         controller = new PIDFController(PID,kV,kA,kStatic);
         offset = lift.getCurrentPosition();
@@ -95,7 +101,7 @@ public class LiftExt {
     }
 
     public static double encoderTicksToInches(double ticks){
-        return SPOOL_RADIUS * 2 * Math.PI * LIFT_STAGES / TICKS_PER_REV;
+        return SPOOL_RADIUS * 2 * Math.PI * ticks / TICKS_PER_REV;
     }
 
     public void setPower(double power){
@@ -111,6 +117,6 @@ public class LiftExt {
     }
 
     public static double rpmToVelocity(double rpm){
-        return rpm * 2 * Math.PI * LIFT_STAGES;
+        return rpm * 2 * Math.PI * SPOOL_RADIUS;
     }
 }
