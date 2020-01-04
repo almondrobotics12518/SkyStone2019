@@ -20,8 +20,8 @@ import org.openftc.revextensions2.ExpansionHubEx;
 @Config
 public class LiftExt {
 
-    public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(30,0,0);
-    public static PIDCoefficients PID = new PIDCoefficients(0.05,0.00001,0);
+    public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(25,0,1);
+    public static PIDCoefficients PID = new PIDCoefficients(0.03,0,0);
     public static double MAX_RPM = 312;
 
     public static double LIFT_STAGES = 1;
@@ -31,7 +31,7 @@ public class LiftExt {
     public static double maxAccel = 15;
     public static double maxJerk = 0;
 
-    public static double kV = 0.047;
+    public static double kV = 0.051;
     public static double kA = 0;
     public static double kStatic = 0;
 
