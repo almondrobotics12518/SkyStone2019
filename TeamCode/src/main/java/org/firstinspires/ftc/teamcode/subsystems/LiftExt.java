@@ -21,19 +21,20 @@ import org.openftc.revextensions2.ExpansionHubEx;
 public class LiftExt {
 
     public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(25,0,1);
-    public static PIDCoefficients PID = new PIDCoefficients(0.03,0,0);
+    public static PIDCoefficients PID = new PIDCoefficients(0.8,0,0.05);
     public static double MAX_RPM = 312;
+    public static double GRAVITY_FF = 0.1;
 
     public static double LIFT_STAGES = 1;
 
     public static double maxPos = 36;
     public static double maxVel = 20;
-    public static double maxAccel = 15;
-    public static double maxJerk = 0;
+    public static double maxAccel = 30;
+    public static double maxJerk = 50;
 
-    public static double kV = 0.051;
-    public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kV = 0.04172;
+    public static double kA = 0.00009;
+    public static double kStatic = 0.017;
 
     public static double TICKS_PER_REV = 537.6;
     public static double SPOOL_RADIUS = 0.75;
@@ -46,17 +47,19 @@ public class LiftExt {
     private double profileStartTime, desiredHeight = 0;
     private int offset;
 
+    private MotionState state;
+
     public LiftExt(LinearOpMode opmode){
         hub = opmode.hardwareMap.get(ExpansionHubEx.class,"Expansion Hub 2");
 
         lift = opmode.hardwareMap.get(DcMotorEx.class, "verticalLift");
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         lift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(
                 VELOCITY_PID.kP,VELOCITY_PID.kI,VELOCITY_PID.kD,1
         ));
 
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         controller = new PIDFController(PID,kV,kA,kStatic);
@@ -86,14 +89,14 @@ public class LiftExt {
         double height = getCurrentHeight();
         if(isBusy()){
             double time = clock.seconds() - profileStartTime;
-            MotionState state = profile.get(time);
+            state = profile.get(time);
             controller.setTargetPosition(state.getX());
             power = controller.update(height, state.getV(), state.getA());
         } else {
             controller.setTargetPosition(desiredHeight);
             power = controller.update(height);
         }
-        lift.setPower(power);
+        setPower(power);
     }
 
     public double getCurrentHeight(){
@@ -105,7 +108,7 @@ public class LiftExt {
     }
 
     public void setPower(double power){
-        lift.setPower(power);
+        lift.setPower(power + GRAVITY_FF);
     }
 
     public void setMode(DcMotor.RunMode mode){
@@ -116,7 +119,17 @@ public class LiftExt {
         return MAX_RPM;
     }
 
+    public MotionState getDesiredMotionState(){
+        return state;
+    }
+
     public static double rpmToVelocity(double rpm){
         return rpm * 2 * Math.PI * SPOOL_RADIUS;
+    }
+
+
+
+    public void resetHeight(){
+        offset = lift.getCurrentPosition();
     }
 }
