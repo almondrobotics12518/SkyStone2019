@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.tuning.RampRegression;
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.internal.system.Misc;
 
@@ -33,7 +34,7 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.rpm
 @Autonomous(group = "drive")
 public class DriveFeedforwardTuner extends LinearOpMode {
     public static final double MAX_POWER = 0.7;
-    public static final double DISTANCE = 30;
+    public static final double DISTANCE = 10;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -53,35 +54,14 @@ public class DriveFeedforwardTuner extends LinearOpMode {
         telemetry.log().add("Press (A) for yes, (B) for no");
         telemetry.update();
 
-        boolean fitIntercept = false;
-        while (!isStopRequested()) {
-            if (gamepad1.a) {
-                fitIntercept = true;
-                while (!isStopRequested() && gamepad1.a) {
-                    idle();
-                }
-                break;
-            } else if (gamepad1.b) {
-                while (!isStopRequested() && gamepad1.b) {
-                    idle();
-                }
-                break;
-            }
-            idle();
-        }
+        boolean fitIntercept = true;
+
 
         telemetry.log().clear();
         telemetry.log().add(Misc.formatInvariant(
                 "Place your robot on the field with at least %.2f in of room in front", DISTANCE));
         telemetry.log().add("Press (A) to begin");
         telemetry.update();
-
-        while (!isStopRequested() && !gamepad1.a) {
-            idle();
-        }
-        while (!isStopRequested() && gamepad1.a) {
-            idle();
-        }
 
         telemetry.log().clear();
         telemetry.log().add("Running...");
@@ -129,35 +109,18 @@ public class DriveFeedforwardTuner extends LinearOpMode {
         telemetry.log().add("Press (A) for yes, (B) for no");
         telemetry.update();
 
-        boolean fitAccelFF = false;
-        while (!isStopRequested()) {
-            if (gamepad1.a) {
-                fitAccelFF = true;
-                while (!isStopRequested() && gamepad1.a) {
-                    idle();
-                }
-                break;
-            } else if (gamepad1.b) {
-                while (!isStopRequested() && gamepad1.b) {
-                    idle();
-                }
-                break;
-            }
-            idle();
-        }
+        ElapsedTime timer = new ElapsedTime();
+        timer.reset();
+        while(timer.milliseconds()<10000){ idle(); }
+
+        boolean fitAccelFF = true;
+
 
         if (fitAccelFF) {
             telemetry.log().clear();
             telemetry.log().add("Place the robot back in its starting position");
             telemetry.log().add("Press (A) to continue");
             telemetry.update();
-
-            while (!isStopRequested() && !gamepad1.a) {
-                idle();
-            }
-            while (!isStopRequested() && gamepad1.a) {
-                idle();
-            }
 
             telemetry.log().clear();
             telemetry.log().add("Running...");

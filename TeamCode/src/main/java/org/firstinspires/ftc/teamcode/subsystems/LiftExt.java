@@ -21,9 +21,11 @@ import org.openftc.revextensions2.ExpansionHubEx;
 public class LiftExt {
 
     public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(25,0,1);
-    public static PIDCoefficients PID = new PIDCoefficients(0.8,0,0.05);
+    public static PIDCoefficients PID = new PIDCoefficients(0.5,0,0.05);
     public static double MAX_RPM = 312;
     public static double GRAVITY_FF = 0.1;
+
+    public static double lastPower = 0;
 
     public static double LIFT_STAGES = 1;
 
@@ -38,6 +40,8 @@ public class LiftExt {
 
     public static double TICKS_PER_REV = 537.6;
     public static double SPOOL_RADIUS = 0.75;
+
+    public double lastTimeStamp = 0;
 
     private PIDFController controller;
     private DcMotorEx lift;
@@ -64,6 +68,8 @@ public class LiftExt {
 
         controller = new PIDFController(PID,kV,kA,kStatic);
         offset = lift.getCurrentPosition();
+
+        lastTimeStamp = clock.seconds();
     }
 
     public boolean isBusy() {
@@ -108,7 +114,16 @@ public class LiftExt {
     }
 
     public void setPower(double power){
-        lift.setPower(power + GRAVITY_FF);
+
+        if((power-lastPower)/(clock.seconds()-lastTimeStamp)>maxAccel){
+            lift.setPower(power+maxAccel*kA+GRAVITY_FF);
+        } else if((power-lastPower)/(clock.seconds()-lastTimeStamp)<-maxAccel){
+            lift.setPower(power-maxAccel*kA+GRAVITY_FF);
+        } else {
+            lift.setPower(power + GRAVITY_FF);
+        }
+        lastPower = power;
+        lastTimeStamp = clock.seconds();
     }
 
     public void setMode(DcMotor.RunMode mode){

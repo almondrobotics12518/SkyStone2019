@@ -11,6 +11,8 @@ import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigu
 @Config
 public class DriveConstants {
 
+    //non-velo pid kV = 0.03 , kStatic = 0.12  , kA =  0.0006  .
+
     private static final MotorConfigurationType MOTOR_CONFIG =
             MotorConfigurationType.getMotorType(NeveRest20Gearmotor.class);
     private static final double TICKS_PER_REV = 537.6;
@@ -24,8 +26,8 @@ public class DriveConstants {
      */
 
     public static double kV = 0.018;
-    public static double kA = 0;
-    public static double kStatic = 0;
+    public static double kA = 0.0035;
+    public static double kStatic = 0.002;
 
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
