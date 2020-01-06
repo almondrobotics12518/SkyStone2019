@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.opmodes.test;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.LiftExt;
 
+@TeleOp
 public class LiftPositionTest extends LinearOpMode {
 
 

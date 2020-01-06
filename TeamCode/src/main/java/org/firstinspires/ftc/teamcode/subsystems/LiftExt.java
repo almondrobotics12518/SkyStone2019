@@ -21,22 +21,22 @@ import org.openftc.revextensions2.ExpansionHubEx;
 public class LiftExt {
 
     public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(25,0,1);
-    public static PIDCoefficients PID = new PIDCoefficients(0.5,0,0.05);
+    public static PIDCoefficients PID = new PIDCoefficients(0.2,0,0.002);
     public static double MAX_RPM = 312;
-    public static double GRAVITY_FF = 0.1;
+    public static double GRAVITY_FF = 0;
 
     public static double lastPower = 0;
 
     public static double LIFT_STAGES = 1;
 
     public static double maxPos = 36;
-    public static double maxVel = 20;
+    public static double maxVel = 15;
     public static double maxAccel = 30;
-    public static double maxJerk = 50;
+    public static double maxJerk = 60;
 
-    public static double kV = 0.04172;
+    public static double kV = 0.046;
     public static double kA = 0.00009;
-    public static double kStatic = 0.017;
+    public static double kStatic = 0.003;
 
     public static double TICKS_PER_REV = 537.6;
     public static double SPOOL_RADIUS = 0.75;
@@ -58,6 +58,7 @@ public class LiftExt {
 
         lift = opmode.hardwareMap.get(DcMotorEx.class, "verticalLift");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         lift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(
                 VELOCITY_PID.kP,VELOCITY_PID.kI,VELOCITY_PID.kD,1
@@ -98,6 +99,7 @@ public class LiftExt {
             state = profile.get(time);
             controller.setTargetPosition(state.getX());
             power = controller.update(height, state.getV(), state.getA());
+
         } else {
             controller.setTargetPosition(desiredHeight);
             power = controller.update(height);
@@ -115,10 +117,10 @@ public class LiftExt {
 
     public void setPower(double power){
 
-        if((power-lastPower)/(clock.seconds()-lastTimeStamp)>maxAccel){
-            lift.setPower(power+maxAccel*kA+GRAVITY_FF);
-        } else if((power-lastPower)/(clock.seconds()-lastTimeStamp)<-maxAccel){
-            lift.setPower(power-maxAccel*kA+GRAVITY_FF);
+        if((power-lastPower)/(clock.seconds()-lastTimeStamp)>1.5){
+            lift.setPower(power+1.5*(clock.seconds()-lastTimeStamp)+ GRAVITY_FF);
+        } else if((power-lastPower)/(clock.seconds()-lastTimeStamp)<-1.5){
+            lift.setPower(power-(clock.seconds()-lastTimeStamp)*1.5+GRAVITY_FF);
         } else {
             lift.setPower(power + GRAVITY_FF);
         }

@@ -50,6 +50,8 @@ public class DriveTrain extends SampleMecanumDrive {
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
 
+
+
         leftFront = hardwareMap.get(ExpansionHubMotor.class, "leftFront");
         leftRear = hardwareMap.get(ExpansionHubMotor.class, "leftRear");
         rightRear = hardwareMap.get(ExpansionHubMotor.class, "rightRear");
@@ -59,7 +61,7 @@ public class DriveTrain extends SampleMecanumDrive {
 
         for (ExpansionHubMotor motor : motors) {
 
-            motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
@@ -67,8 +69,6 @@ public class DriveTrain extends SampleMecanumDrive {
         rightRear.setDirection(DcMotorSimple.Direction.REVERSE);
 
         setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, VELOCITY_PID);
-
-        //setLocalizer(new NewLocalizer(hardwareMap));
     }
 
     @Override
@@ -117,4 +117,5 @@ public class DriveTrain extends SampleMecanumDrive {
 
     @Override
     public Orientation getOrientation() {return imu.getAngularOrientation(); }
+
 }

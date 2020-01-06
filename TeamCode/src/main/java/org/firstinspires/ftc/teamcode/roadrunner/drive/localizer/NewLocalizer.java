@@ -43,6 +43,7 @@ public class NewLocalizer implements Localizer {
     private double deltaX, deltaY;
     private Pose2d poseEstimate = new Pose2d(0,0,0),lastPoseEstimate=new Pose2d(0,0,0);
 
+    private double angleOffset = 0;
 
     /*
      * This constructor initializes everything (the imu calibration code is blocking and shouldn't be there)
@@ -52,14 +53,11 @@ public class NewLocalizer implements Localizer {
 
         hub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 1");
 
-
         //Gyro Calibration
-
         imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         imu.initialize(parameters);
-        while(!imu.isGyroCalibrated()){ }
 
         //Motor mapping
         leftFront = hardwareMap.get(ExpansionHubMotor.class, "leftFront");
@@ -132,7 +130,13 @@ public class NewLocalizer implements Localizer {
         return (imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.RADIANS).firstAngle + (2 * Math.PI) + headingOffset )%(2*Math.PI);
     }
 
-    public void setPoseEstimate(Pose2d estimate){ poseEstimate = estimate; }
+    public void setPoseEstimate(Pose2d estimate){
+        poseEstimate = estimate;
+        angleOffset = estimate.getHeading();
+        lastHeading = estimate.getHeading();
+        currentHeading = estimate.getHeading();
+
+    }
 
     /**
      * This is used to set the start pose

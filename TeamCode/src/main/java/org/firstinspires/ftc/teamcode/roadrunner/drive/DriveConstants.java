@@ -25,9 +25,9 @@ public class DriveConstants {
      * Tune these!!!!
      */
 
-    public static double kV = 0.018;
+    public static double kV = 0.0215;
     public static double kA = 0.0035;
-    public static double kStatic = 0.002;
+    public static double kStatic = 0.005;
 
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
