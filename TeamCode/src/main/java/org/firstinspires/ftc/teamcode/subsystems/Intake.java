@@ -13,12 +13,12 @@ public class Intake{
      * You should be facing the same way that the intake is facing.
      */
 
-    private DcMotorEx motorLeft;
-    private DcMotorEx motorRight;
+    private DcMotor motorLeft;
+    private DcMotor motorRight;
 
     public Intake(LinearOpMode opmode){
-        motorLeft = opmode.hardwareMap.get(DcMotorEx.class,"intakeLeft");
-        motorRight = opmode.hardwareMap.get(DcMotorEx.class, "intakeRight");
+        motorLeft = opmode.hardwareMap.get(DcMotor.class,"intakeLeft");
+        motorRight = opmode.hardwareMap.get(DcMotor.class, "intakeRight");
 
         motorRight.setDirection(DcMotorSimple.Direction.REVERSE);
     }
@@ -30,7 +30,6 @@ public class Intake{
 
     public void intake(){
         setPower(1);
-
     }
 
 
