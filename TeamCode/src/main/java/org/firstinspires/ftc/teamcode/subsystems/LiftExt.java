@@ -116,16 +116,7 @@ public class LiftExt {
     }
 
     public void setPower(double power){
-
-        if((power-lastPower)/(clock.seconds()-lastTimeStamp)>1.5){
-            lift.setPower(power+1.5*(clock.seconds()-lastTimeStamp)+ GRAVITY_FF);
-        } else if((power-lastPower)/(clock.seconds()-lastTimeStamp)<-1.5){
-            lift.setPower(power-(clock.seconds()-lastTimeStamp)*1.5+GRAVITY_FF);
-        } else {
             lift.setPower(power + GRAVITY_FF);
-        }
-        lastPower = power;
-        lastTimeStamp = clock.seconds();
     }
 
     public void setMode(DcMotor.RunMode mode){

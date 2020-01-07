@@ -19,19 +19,21 @@ public class DriveConstants {
 
     public static double WHEEL_RADIUS = 2;
     public static double GEAR_RATIO = 1; // output (wheel) speed / input (motor) speed
-    public static double TRACK_WIDTH = 14.3;
+    public static double TRACK_WIDTH = 13.8;
+
+
 
     /*
      * Tune these!!!!
      */
 
-    public static double kV = 0.0215;
-    public static double kA = 0.0035;
-    public static double kStatic = 0.005;
+    public static double kV = 0.02;
+    public static double kA = 0.0003;
+    public static double kStatic = 0.003;
 
 
     public static DriveConstraints BASE_CONSTRAINTS = new DriveConstraints(
-            45.0, 35.0, 0.0,
+            40.0, 40.0, 0.0,
             Math.toRadians(180.0), Math.toRadians(180.0), 0.0
     );
 
