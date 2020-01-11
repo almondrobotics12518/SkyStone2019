@@ -5,6 +5,7 @@ import com.acmerobotics.roadrunner.drive.Drive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.opmodes.AlmondLinear;
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
@@ -16,7 +17,7 @@ import org.firstinspires.ftc.teamcode.subsystems.LiftExt;
 import kotlin.Unit;
 
 @Autonomous(group="auto",name="Blue Auto")
-public class BlueAuto extends AlmondLinear {
+public class BlueAuto extends LinearOpMode {
 
     private LiftExt lift;
     private DriveTrain drive;
