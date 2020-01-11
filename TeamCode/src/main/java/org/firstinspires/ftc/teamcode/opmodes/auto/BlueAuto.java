@@ -55,14 +55,20 @@ public class BlueAuto extends LinearOpMode {
 
         drive.followTrajectory(drive.trajectoryBuilder()
                 .splineTo(new Pose2d(-48-(stonePosition*8),24,(Math.toRadians(-135))))//Moves to go pick up 1st skystone
+                .reverse()
                 .splineTo(new Pose2d(0,36,Math.toRadians(-180)))//Moves to go under skybridge
                 .splineTo(new Pose2d(48,33,Math.toRadians(-270)))//Goes to the foundation
+                .reverse()
                 .splineTo(new Pose2d(40,40,Math.toRadians(-180)))//Moves backwards and turns
+                .reverse()
                 .splineTo(new Pose2d(48,48,Math.toRadians(-180)))//Goes  to drop off spot of foundation
+                .reverse()
                 .splineTo(new Pose2d(0,36,Math.toRadians(-180)))//Goes back to under the skybridge
                 .splineTo(new Pose2d(-24-(stonePosition*8),24,Math.toRadians(-135)))//Goes back to pick up 2nd skystone
+                .reverse()
                 .splineTo(new Pose2d(0,36,Math.toRadians(-180)))
                 .lineTo(new Vector2d(36,36))
+                .reverse()
                 .lineTo(new Vector2d(0,36))
                 .build());
         while(!isStopRequested()&&drive.isBusy()){
