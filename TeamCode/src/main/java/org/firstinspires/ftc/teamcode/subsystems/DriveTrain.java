@@ -33,6 +33,7 @@ import static org.firstinspires.ftc.teamcode.roadrunner.drive.DriveConstants.enc
  */
 public class DriveTrain extends SampleMecanumDrive {
     private ExpansionHubEx hub;
+    private ExpansionHubEx hub2;
     private ExpansionHubMotor leftFront, leftRear, rightRear, rightFront;
     private List<ExpansionHubMotor> motors;
     public BNO055IMU imu;
@@ -43,8 +44,9 @@ public class DriveTrain extends SampleMecanumDrive {
         LynxModuleUtil.ensureMinimumFirmwareVersion(hardwareMap);
 
         hub = hardwareMap.get(ExpansionHubEx.class, "Expansion Hub 1");
+        hub2 = hardwareMap.get(ExpansionHubEx.class,"Expansion Hub 2");
 
-        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub.getStandardModule(), 0);
+        imu = LynxOptimizedI2cFactory.createLynxEmbeddedImu(hub2.getStandardModule(), 0);
         //imu = hardwareMap.get(BNO055IMU.class, "imu");
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
