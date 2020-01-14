@@ -5,10 +5,6 @@ import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.subsystems.Hook;
@@ -24,53 +20,61 @@ public class NewTeleOp extends LinearOpMode {
     private DriveTrain dt;
     private Hook hook;
     private Intake intake;
-    private LiftExt lift;
-    private double currentTime;
-
-    private double leftX = 0;
-    private double leftY = 0;
-    private double rightX = 0;
-    private double LF = 0;
-    private double LR = 0;
-    private double RF = 0;
-    private double RR = 0;
-
-    private double rightMultiplier = 0;
+    //private LiftExt lift;
 
     private boolean hookIsClosed = false;
+    private boolean clawIsClosed = false;
     private boolean aWasPressed = false;
+    private boolean bWasPressed = false;
 
 
     @Override
     public void runOpMode() throws InterruptedException {
 
-        ElapsedTime timer = new ElapsedTime();
         claw = new Claw(hardwareMap);
         hook = new Hook(hardwareMap);
         dt = new DriveTrain(hardwareMap);
         intake = new Intake(this);
-        lift = new LiftExt(this);
+        //lift = new LiftExt(this);
 
         waitForStart();
-        timer.reset();
+
         while (opModeIsActive()) {
-            currentTime = timer.milliseconds();
 
+            // drivetrain
             dt.setDrivePower(new Pose2d(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x * 0.3));
-            lift.setSlidePower(-gamepad1.left_stick_y*0.7);
 
-            if(gamepad2.a && !aWasPressed){
+            // slide
+            //lift.setSlidePower(-gamepad2.right_stick_y*0.7);
+
+            // lift
+            //lift.setPower(-gamepad2.left_stick_y*.7);
+
+            // intake
+            intake.setPower(gamepad2.right_trigger-gamepad2.left_trigger);
+
+            // hook
+            /*
+            if(gamepad1.a && !aWasPressed){
                 aWasPressed = true;
-                if(hookIsClosed){
-                    hook.open();
-                } else {
-                    hook.close();
-                }
-                hookIsClosed = !hookIsClosed;
-
-            } else if(!gamepad2.a && aWasPressed){
-                aWasPressed = false;
+                hook.toggle();
             }
+            if(!gamepad1.a){
+                aWasPressed = false;
+            }*/
+
+            // claw
+            /*
+            if(gamepad2.b && !bWasPressed){
+                bWasPressed = true;
+                claw.toggle();
+            }
+            if(!gamepad2.b){
+                bWasPressed = false;
+            }*/
+
+            telemetry.addData("Wheels",dt.getWheelPositions());
+            //telemetry.addData("Lift",lift.getCurrentHeight());
 
 
         }

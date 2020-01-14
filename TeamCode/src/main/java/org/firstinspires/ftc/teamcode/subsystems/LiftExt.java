@@ -9,6 +9,7 @@ import com.acmerobotics.roadrunner.profile.MotionState;
 import com.acmerobotics.roadrunner.util.NanoClock;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -45,6 +46,7 @@ public class LiftExt {
 
     private PIDFController controller;
     private DcMotorEx lift;
+    public CRServo slide;
     private ExpansionHubEx hub;
     private MotionProfile profile;
     private NanoClock clock = NanoClock.system();
@@ -57,8 +59,10 @@ public class LiftExt {
         hub = opmode.hardwareMap.get(ExpansionHubEx.class,"Expansion Hub 2");
 
         lift = opmode.hardwareMap.get(DcMotorEx.class, "verticalLift");
+        slide = opmode.hardwareMap.get(CRServo.class, "liftSlide");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
 
         lift.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, new PIDFCoefficients(
                 VELOCITY_PID.kP,VELOCITY_PID.kI,VELOCITY_PID.kD,1
@@ -117,6 +121,11 @@ public class LiftExt {
 
     public void setPower(double power){
             lift.setPower(power + GRAVITY_FF);
+    }
+
+    public void setSlidePower(double power){
+        slide.setPower(power);
+
     }
 
     public void setMode(DcMotor.RunMode mode){
