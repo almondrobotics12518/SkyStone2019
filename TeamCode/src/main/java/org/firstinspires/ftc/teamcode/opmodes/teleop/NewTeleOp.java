@@ -57,7 +57,7 @@ public class NewTeleOp extends LinearOpMode {
             currentTime = timer.milliseconds();
 
             dt.setDrivePower(new Pose2d(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x * 0.3));
-            lift.setSlidePower(-gamepad1.left_stick_y*0.7);
+            //lift.setSlidePower(-gamepad1.left_stick_y*0.7);
 
             if(gamepad2.a && !aWasPressed){
                 aWasPressed = true;

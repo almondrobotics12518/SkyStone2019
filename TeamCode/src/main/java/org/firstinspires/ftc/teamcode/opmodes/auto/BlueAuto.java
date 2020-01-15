@@ -35,10 +35,9 @@ public class BlueAuto extends LinearOpMode {
         detector = new Detector(hardwareMap);
         intake = new Intake(this);
 
-        drive.setPoseEstimate(new Pose2d(-39,63,Math.toRadians(-90)));
+        drive.setPoseEstimate(new Pose2d(-39,62,Math.toRadians(-90)));
 
         detector.startStreaming();
-        detector.phoneCam.pauseViewport();
         while(!isStarted()&&!isStopRequested()){
             double position = detector.detector.foundRectangle().x+detector.detector.foundRectangle().width/2;
             if(position<105){
@@ -54,21 +53,62 @@ public class BlueAuto extends LinearOpMode {
         detector.phoneCam.stopStreaming();
 
         drive.followTrajectory(drive.trajectoryBuilder()
-                .splineTo(new Pose2d(-48-(stonePosition*8),24,(Math.toRadians(-135))))//Moves to go pick up 1st skystone
+                .addMarker(()->{intake.intake(); return Unit.INSTANCE;})
+                .splineTo(new Pose2d(-40-(stonePosition*8),36,Math.toRadians(-180)))
+                .splineTo(new Pose2d(-48-(stonePosition*8),22,(Math.toRadians(-135))))//Moves to go pick up 1st skystone
+                .build());
+        while(!isStopRequested()&&drive.isBusy()){
+            drive.update();
+            lift.update();
+        }
+
+        drive.followTrajectory(drive.trajectoryBuilder()
                 .reverse()
                 .splineTo(new Pose2d(0,36,Math.toRadians(-180)))//Moves to go under skybridge
-                .splineTo(new Pose2d(48,33,Math.toRadians(-270)))//Goes to the foundation
-                .reverse()
-                .splineTo(new Pose2d(40,40,Math.toRadians(-180)))//Moves backwards and turns
+                .splineTo(new Pose2d(48,33,Math.toRadians(-270)))//Goes to the foundation);
+                .build());
+        while(!isStopRequested()&&drive.isBusy()){
+            drive.update();
+            lift.update();
+        }
+
+        drive.followTrajectory(drive.trajectoryBuilder()
+                .splineTo(new Pose2d(40,40,Math.toRadians(-180)))//Moves backwards and turns// );
+                .build());
+        while(!isStopRequested()&&drive.isBusy()){
+            drive.update();
+            lift.update();
+        }
+
+        drive.followTrajectory(drive.trajectoryBuilder()
                 .reverse()
                 .splineTo(new Pose2d(48,48,Math.toRadians(-180)))//Goes  to drop off spot of foundation
-                .reverse()
+                .build());
+        while(!isStopRequested()&&drive.isBusy()){
+            drive.update();
+            lift.update();
+        }
+
+        drive.followTrajectory(drive.trajectoryBuilder()
                 .splineTo(new Pose2d(0,36,Math.toRadians(-180)))//Goes back to under the skybridge
-                .splineTo(new Pose2d(-24-(stonePosition*8),24,Math.toRadians(-135)))//Goes back to pick up 2nd skystone
+                .splineTo(new Pose2d(-24-(stonePosition*8),24,Math.toRadians(-120)))//Goes back to pick up 2nd skystone// );
+                .build());
+        while(!isStopRequested()&&drive.isBusy()){
+            drive.update();
+            lift.update();
+        }
+
+        drive.followTrajectory(drive.trajectoryBuilder()
                 .reverse()
                 .splineTo(new Pose2d(0,36,Math.toRadians(-180)))
                 .lineTo(new Vector2d(36,36))
-                .reverse()
+                .build());
+        while(!isStopRequested()&&drive.isBusy()){
+            drive.update();
+            lift.update();
+        }
+
+        drive.followTrajectory(drive.trajectoryBuilder()
                 .lineTo(new Vector2d(0,36))
                 .build());
         while(!isStopRequested()&&drive.isBusy()){
@@ -77,7 +117,11 @@ public class BlueAuto extends LinearOpMode {
         }
 
 
+    }
 
+    public void update(){
+        drive.update();
+        lift.update();
     }
 
 }
