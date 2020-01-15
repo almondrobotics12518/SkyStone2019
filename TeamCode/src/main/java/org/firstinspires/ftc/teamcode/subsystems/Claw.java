@@ -9,6 +9,7 @@ public class Claw {
 
     public static double OPEN_POS;
     public static double CLOSE_POS;
+    private boolean isClosed;
 
     public Claw(HardwareMap hardwareMap){
         claw = hardwareMap.servo.get("claw");
@@ -24,6 +25,17 @@ public class Claw {
 
     public void close(){
         claw.setPosition(CLOSE_POS);
+    }
+
+    public void toggle(){
+        if(isClosed){
+            isClosed = false;
+            open();
+        }else {
+            isClosed = true;
+            close();
+        }
+
     }
 
 

@@ -16,6 +16,8 @@ public class Hook {
     public static double RIGHT_CLOSE_POS = 0;
     public static double LEFT_CLOSE_POS = 0;
 
+    private boolean isClosed;
+
     public Hook(HardwareMap hardwareMap){
         hookLeft = hardwareMap.servo.get("hookLeft");
         hookRight = hardwareMap.servo.get("hookRight");
@@ -31,5 +33,15 @@ public class Hook {
     public void close(){
         hookRight.setPosition(RIGHT_CLOSE_POS);
         hookLeft.setPosition(LEFT_CLOSE_POS);
+    }
+    public void toggle(){
+        if(isClosed){
+            isClosed = false;
+            open();
+        }else {
+            isClosed = true;
+            close();
+        }
+
     }
 }
