@@ -17,7 +17,7 @@ public class LiftDownTest extends LinearOpMode {
     private FtcDashboard dashboard;
 
     public void runOpMode() throws InterruptedException {
-        LiftExt lift = new LiftExt(this);
+        LiftExt lift = new LiftExt(hardwareMap);
 
         dashboard = FtcDashboard.getInstance();
 

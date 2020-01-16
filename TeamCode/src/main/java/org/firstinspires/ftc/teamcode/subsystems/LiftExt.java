@@ -22,9 +22,9 @@ import org.openftc.revextensions2.ExpansionHubEx;
 public class LiftExt {
 
     public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(25,0,1);
-    public static PIDCoefficients PID = new PIDCoefficients(0.2,0,0.002);
+    public static PIDCoefficients PID = new PIDCoefficients(0.2,0,0.02);
     public static double MAX_RPM = 312;
-    public static double GRAVITY_FF = 0;
+    public static double GRAVITY_FF = 0.12;
 
     public static double lastPower = 0;
 
@@ -55,11 +55,11 @@ public class LiftExt {
 
     private MotionState state;
 
-    public LiftExt(LinearOpMode opmode){
-        hub = opmode.hardwareMap.get(ExpansionHubEx.class,"Expansion Hub 2");
+    public LiftExt(HardwareMap hardwareMap){
+        hub = hardwareMap.get(ExpansionHubEx.class,"Expansion Hub 2");
 
-        lift = opmode.hardwareMap.get(DcMotorEx.class, "verticalLift");
-        slide = opmode.hardwareMap.get(CRServo.class, "liftSlide");
+        lift = hardwareMap.get(DcMotorEx.class, "verticalLift");
+        slide = hardwareMap.get(CRServo.class, "liftSlide");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 

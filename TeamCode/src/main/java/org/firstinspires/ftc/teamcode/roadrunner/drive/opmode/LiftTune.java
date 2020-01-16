@@ -39,7 +39,7 @@ public class LiftTune extends LinearOpMode {
 
         telemetry = new MultipleTelemetry(telemetry, FtcDashboard.getInstance().getTelemetry());
 
-        LiftExt lift  = new LiftExt(this);
+        LiftExt lift  = new LiftExt(hardwareMap);
 
         NanoClock clock = NanoClock.system();
 

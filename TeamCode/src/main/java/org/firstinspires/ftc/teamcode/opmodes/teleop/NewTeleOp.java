@@ -20,7 +20,7 @@ public class NewTeleOp extends LinearOpMode {
     private DriveTrain dt;
     private Hook hook;
     private Intake intake;
-    //private LiftExt lift;
+    private LiftExt lift;
 
     private boolean hookIsClosed = false;
     private boolean clawIsClosed = false;
@@ -35,46 +35,48 @@ public class NewTeleOp extends LinearOpMode {
         hook = new Hook(hardwareMap);
         dt = new DriveTrain(hardwareMap);
         intake = new Intake(this);
-        //lift = new LiftExt(this);
+        lift = new LiftExt(hardwareMap);
 
         waitForStart();
 
         while (opModeIsActive()) {
 
             // drivetrain
-            dt.setDrivePower(new Pose2d(gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x * 0.3));
+            dt.setDrivePower(new Pose2d(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x * 0.5));
 
             // slide
-            //lift.setSlidePower(-gamepad2.right_stick_y*0.7);
+            lift.setSlidePower(-gamepad2.right_stick_y);
 
             // lift
-            //lift.setPower(-gamepad2.left_stick_y*.7);
+            lift.setPower(-gamepad2.left_stick_y);
 
             // intake
             intake.setPower(gamepad2.right_trigger-gamepad2.left_trigger);
 
             // hook
-            /*
+
             if(gamepad1.a && !aWasPressed){
                 aWasPressed = true;
                 hook.toggle();
             }
             if(!gamepad1.a){
                 aWasPressed = false;
-            }*/
+            }
 
             // claw
-            /*
+
             if(gamepad2.b && !bWasPressed){
                 bWasPressed = true;
                 claw.toggle();
             }
             if(!gamepad2.b){
                 bWasPressed = false;
-            }*/
+            }
 
             telemetry.addData("Wheels",dt.getWheelPositions());
             //telemetry.addData("Lift",lift.getCurrentHeight());
+            telemetry.addData("Gamepad2 stick: ",gamepad2.left_stick_y);
+            telemetry.update();
 
 
         }

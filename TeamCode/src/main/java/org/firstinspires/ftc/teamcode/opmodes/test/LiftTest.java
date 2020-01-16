@@ -23,7 +23,7 @@ public class LiftTest extends LinearOpMode {
         ElapsedTime timer = new ElapsedTime();
 
 
-        LiftExt lift = new LiftExt(this);
+        LiftExt lift = new LiftExt(hardwareMap);
         waitForStart();
         while(!isStopRequested()){
             lift.setHeight(5 + Math.random()*25);

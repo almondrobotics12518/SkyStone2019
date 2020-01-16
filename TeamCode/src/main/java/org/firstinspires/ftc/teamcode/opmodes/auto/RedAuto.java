@@ -28,7 +28,7 @@ public class RedAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        lift = new LiftExt(this);
+        lift = new LiftExt(hardwareMap);
         drive = new DriveTrain(hardwareMap);
         detector = new Detector(hardwareMap);
         intake = new Intake(this);

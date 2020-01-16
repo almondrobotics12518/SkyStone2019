@@ -55,7 +55,7 @@ public class FoundationAutoBlueLOL extends LinearOpMode {
         }
 
         drive.followTrajectory(drive.trajectoryBuilder()
-        .lineTo(new Vector2d(50,48),new ConstantInterpolator(Math.toRadians(180)))
+        .lineTo(new Vector2d(55,46),new ConstantInterpolator(Math.toRadians(180)))
         .build());
 
         while(!isStopRequested()&&drive.isBusy()){
@@ -64,7 +64,7 @@ public class FoundationAutoBlueLOL extends LinearOpMode {
 
         hook.open();
         sleep(300);
-        
+
 
         drive.followTrajectory(drive.trajectoryBuilder().forward(47).build());
         while(!isStopRequested()&&drive.isBusy()){

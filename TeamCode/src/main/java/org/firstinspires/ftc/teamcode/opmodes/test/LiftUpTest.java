@@ -17,7 +17,7 @@ public class LiftUpTest extends LinearOpMode {
     public static double DISTANCE = 20;
 
     public void runOpMode() throws InterruptedException {
-        LiftExt lift = new LiftExt(this);
+        LiftExt lift = new LiftExt(hardwareMap);
         dashboard = FtcDashboard.getInstance();
 
         waitForStart();

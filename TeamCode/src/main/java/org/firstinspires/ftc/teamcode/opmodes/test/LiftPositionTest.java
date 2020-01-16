@@ -12,7 +12,7 @@ public class LiftPositionTest extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        LiftExt lift = new LiftExt(this);
+        LiftExt lift = new LiftExt(hardwareMap);
 
         waitForStart();
 
