@@ -56,10 +56,19 @@ public class BlueAuto extends LinearOpMode {
         }
         detector.phoneCam.stopStreaming();
 
+        double  offset = 0;
+        if(stonePosition ==1){
+            offset = 2;
+        }
+
+        if(stonePosition==2){
+            offset = 1.5;
+        }
+
         drive.followTrajectory(drive.trajectoryBuilder()
-                .addMarker(()->{intake.intake(); return Unit.INSTANCE;})
-                .splineTo(new  Pose2d(-39-(stonePosition*8),38,Math.toRadians(-135)))
-                .lineTo(new Vector2d(-44-(stonePosition*8),20),new ConstantInterpolator(Math.toRadians(-135)))
+                .addMarker(()->{intake.setPower(0.5); return Unit.INSTANCE;})
+                .splineTo(new  Pose2d(-40-(stonePosition*8)+offset,38,Math.toRadians(-135)))
+                .lineTo(new Vector2d(-44-(stonePosition*8)+offset,20),new ConstantInterpolator(Math.toRadians(-135)))
                 .build());
         while(!isStopRequested()&&drive.isBusy()){
             drive.update();
@@ -68,13 +77,26 @@ public class BlueAuto extends LinearOpMode {
 
         drive.followTrajectory(drive.trajectoryBuilder()
                 .reverse()
-                .addMarker(1,()->{claw.close(); return Unit.INSTANCE;})
-                .splineTo(new Pose2d(0,36,Math.toRadians(-180)))//Moves to go under skybridge
-                .splineTo(new Pose2d(48,32,Math.toRadians(-270)))//Goes to the foundation);
+                .addMarker(0.5,()->{intake.setPower(0.2); return Unit.INSTANCE;})
+                .splineTo(new Pose2d(0,34,Math.toRadians(-180)))//Moves to go under skybridge
+                //.addMarker(()->{lift.setHeight(9); lift.setSlidePower(-1); return Unit.INSTANCE;})
+                .splineTo(new Pose2d(24,34.1,Math.toRadians(180)))//Goes to the foundation);
+
+                //.addMarker(()->{lift.setSlidePower(0); claw.open(); return Unit.INSTANCE;})
                 .build());
         while(!isStopRequested()&&drive.isBusy()){
             drive.update();
             lift.update();
+        }
+
+        drive.turn(Math.toRadians(90));
+        while(drive.isBusy()&&!isStopRequested()){
+            drive.update();
+        }
+        intake.setPower(-1);
+        drive.turn(Math.toRadians(-90));
+        while(drive.isBusy()&&!isStopRequested()){
+            drive.update();
         }
 /*
         drive.followTrajectory(drive.trajectoryBuilder()
@@ -86,10 +108,22 @@ public class BlueAuto extends LinearOpMode {
             lift.update();
         }
 */
+
+        double offset2 = 0;
+        if(stonePosition == 1){
+            offset2 = 2.5;
+        }
+        if(stonePosition == 2){
+            offset2 = 1;
+        }
+
         drive.followTrajectory(drive.trajectoryBuilder()
-                .splineTo(new Pose2d(0,36,Math.toRadians(-180)))//Goes back to under the skybridge
-                .splineTo(new  Pose2d(-18-(stonePosition*8),32,Math.toRadians(-130)))
-                .lineTo(new Vector2d(-22-(stonePosition*8),20),new ConstantInterpolator(Math.toRadians(-130)))
+                //.addMarker(()->{lift.setHeight(0.1); return Unit.INSTANCE;})
+
+                .splineTo(new Pose2d(0,34,Math.toRadians(-180)))//Goes back to under the skybridge
+                .addMarker(()->{intake.setPower(0.5); return Unit.INSTANCE;})
+                .splineTo(new  Pose2d(-18-(stonePosition*8)+offset2,32,Math.toRadians(-130)))
+                .lineTo(new Vector2d(-24-(stonePosition*8)+offset2,20),new ConstantInterpolator(Math.toRadians(-130)))
                 .build());
         while(!isStopRequested()&&drive.isBusy()){
             drive.update();
@@ -98,16 +132,27 @@ public class BlueAuto extends LinearOpMode {
 
         drive.followTrajectory(drive.trajectoryBuilder()
                 .reverse()
+                .addMarker(0.5,()->{intake.setPower(0.2); return Unit.INSTANCE;})
                 .splineTo(new Pose2d(0,34,Math.toRadians(-180)))
-                .lineTo(new Vector2d(36,34))
+                .splineTo(new Pose2d(20,34.1,Math.toRadians((180))))
                 .build());
         while(!isStopRequested()&&drive.isBusy()){
             drive.update();
             lift.update();
         }
 
+        drive.turn(Math.toRadians(90));
+        while(drive.isBusy()&&!isStopRequested()){
+            drive.update();
+        }
+        intake.setPower(-1);
+        drive.turn(Math.toRadians(-90));
+        while(drive.isBusy()&&!isStopRequested()){
+            drive.update();
+        }
+
         drive.followTrajectory(drive.trajectoryBuilder()
-                .lineTo(new Vector2d(0,36))
+                .splineTo(new Pose2d(0,34,Math.PI))
                 .build());
         while(!isStopRequested()&&drive.isBusy()){
             drive.update();
