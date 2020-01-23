@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import android.os.Build;
@@ -13,8 +14,9 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.subsystems.Hook;
 
 import java.util.Vector;
-@Autonomous()
-public class BlueFoundAuto extends LinearOpMode {
+
+@Autonomous
+public class BlueFoundAutoSafer extends LinearOpMode {
 
     private DriveTrain drive;
     private Hook hook;
@@ -28,10 +30,10 @@ public class BlueFoundAuto extends LinearOpMode {
         waitForStart();
 
         drive.followTrajectory(drive.trajectoryBuilder()
-        .back(1)
+                .back(1)
                 .reverse()
-        .splineTo(new Pose2d(50,35,Math.toRadians(90)))
-        .lineTo(new Vector2d(50,30),new ConstantInterpolator(Math.toRadians(90)))
+                .splineTo(new Pose2d(50,35,Math.toRadians(90)))
+                .lineTo(new Vector2d(50,30),new ConstantInterpolator(Math.toRadians(90)))
                 .build());
 
         while(!isStopRequested()&&drive.isBusy()){
@@ -54,8 +56,8 @@ public class BlueFoundAuto extends LinearOpMode {
         }
 
         drive.followTrajectory(drive.trajectoryBuilder()
-        .lineTo(new Vector2d(55,46),new ConstantInterpolator(Math.toRadians(180)))
-        .build());
+                .lineTo(new Vector2d(55,46),new ConstantInterpolator(Math.toRadians(180)))
+                .build());
 
         while(!isStopRequested()&&drive.isBusy()){
             drive.update();
@@ -65,7 +67,9 @@ public class BlueFoundAuto extends LinearOpMode {
         sleep(300);
 
 
-        drive.followTrajectory(drive.trajectoryBuilder().forward(47).build());
+        drive.followTrajectory(drive.trajectoryBuilder()
+        .splineTo(new Pose2d(0,66,Math.toRadians(180)))
+        .build());
         while(!isStopRequested()&&drive.isBusy()){
             drive.update();
         }

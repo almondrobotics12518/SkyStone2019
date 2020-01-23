@@ -60,7 +60,7 @@ public class RedAuto extends LinearOpMode {
         }
 
         if(stonePosition==2){
-            offset = 1.5;
+            offset = 2.5;
         }
 
         drive.followTrajectory(drive.trajectoryBuilder()
@@ -112,7 +112,7 @@ public class RedAuto extends LinearOpMode {
             offset2 = 2.5;
         }
         if(stonePosition == 2){
-            offset2 = 1;
+            offset2 = 2.5;
         }
 
         drive.followTrajectory(drive.trajectoryBuilder()
