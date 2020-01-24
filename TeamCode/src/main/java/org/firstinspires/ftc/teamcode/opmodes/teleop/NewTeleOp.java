@@ -37,15 +37,22 @@ public class NewTeleOp extends LinearOpMode {
         intake = new Intake(this);
         lift = new LiftExt(hardwareMap);
 
+        double multiplier=0.5;
         waitForStart();
 
         while (opModeIsActive()) {
 
+            if(gamepad1.right_bumper){
+                multiplier = 1;
+            } else {
+                multiplier = 0.5;
+            }
+
             // drivetrain
-            dt.setDrivePower(new Pose2d(-gamepad1.left_stick_y, -gamepad1.left_stick_x, -gamepad1.right_stick_x * 0.5));
+            dt.setDrivePower(new Pose2d(gamepad1.left_stick_y*multiplier, gamepad1.left_stick_x*multiplier, -gamepad1.right_stick_x * 0.7 * multiplier));
 
             // slide
-            lift.setSlidePower(-gamepad2.right_stick_y);
+            lift.setSlidePower(gamepad2.right_stick_y);
 
             // lift
             lift.setPower(-gamepad2.left_stick_y);
@@ -54,7 +61,6 @@ public class NewTeleOp extends LinearOpMode {
             intake.setPower(gamepad2.right_trigger-gamepad2.left_trigger);
 
             // hook
-
             if(gamepad1.a && !aWasPressed){
                 aWasPressed = true;
                 hook.toggle();
@@ -72,6 +78,8 @@ public class NewTeleOp extends LinearOpMode {
             if(!gamepad2.b){
                 bWasPressed = false;
             }
+
+            claw.repeat();
 
             telemetry.addData("Wheels",dt.getWheelPositions());
             //telemetry.addData("Lift",lift.getCurrentHeight());

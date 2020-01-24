@@ -167,15 +167,6 @@ public class LastYearTeleOp extends LinearOpMode {
             // dont need this
 
         }
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
-        slide.setPower(0);
-        armLeft.setPower(0);
-        armRight.setPower(0);
-        lScrew.setPower(0);
-
 
 
     }
