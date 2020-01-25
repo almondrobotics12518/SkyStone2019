@@ -65,11 +65,12 @@ public class RedFoundAuto extends LinearOpMode {
         sleep(300);
 
 
-        drive.followTrajectory(drive.trajectoryBuilder().forward(47).build());
-        while(!isStopRequested()&&drive.isBusy()){
+        drive.followTrajectory(drive.trajectoryBuilder()
+                .lineTo(new Vector2d(drive.getPoseEstimate().getX() - 40, -34), new ConstantInterpolator(Math.toRadians(-180)))
+                .build());
+        while (!isStopRequested() && drive.isBusy()) {
             drive.update();
         }
-
 
     }
 }
