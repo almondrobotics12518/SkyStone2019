@@ -1,22 +1,13 @@
 package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 
-import com.acmerobotics.roadrunner.drive.Drive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
-import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.opmodes.AlmondLinear;
-import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.Detector;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
-import org.firstinspires.ftc.teamcode.subsystems.Intake;
-import org.firstinspires.ftc.teamcode.subsystems.LiftExt;
-import org.firstinspires.ftc.teamcode.subsystems.RightGrab;
-
-import kotlin.Unit;
 
 @Autonomous(group="auto",name="Blue Auto")
 public class BlueAutoGrab extends LinearOpMode {
