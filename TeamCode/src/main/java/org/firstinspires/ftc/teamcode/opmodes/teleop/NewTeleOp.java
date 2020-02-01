@@ -11,6 +11,7 @@ import org.firstinspires.ftc.teamcode.subsystems.Hook;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LiftExt;
 import org.firstinspires.ftc.teamcode.subsystems.LeftGrab;
+import org.firstinspires.ftc.teamcode.subsystems.RightGrab;
 
 
 @TeleOp(name="New TeleOp",group="teleop")
@@ -20,7 +21,7 @@ public class NewTeleOp extends LinearOpMode {
     private DriveTrain dt;
     private Hook hook;
     private Intake intake;
-    private LeftGrab leftGrab;
+    private RightGrab rightGrab;
     private LiftExt lift;
 
 
@@ -38,7 +39,7 @@ public class NewTeleOp extends LinearOpMode {
         dt = new DriveTrain(hardwareMap);
         intake = new Intake(this);
         lift = new LiftExt(hardwareMap);
-        leftGrab = new LeftGrab(hardwareMap);
+        rightGrab = new RightGrab(hardwareMap);
 
         double multiplier=0.5;
         waitForStart();
@@ -86,7 +87,7 @@ public class NewTeleOp extends LinearOpMode {
 
             if(gamepad2.x && !xWasPressed){
                 xWasPressed = true;
-                leftGrab.toggleSmall();
+                rightGrab.toggleSmall();
             }
             if(!gamepad2.x){
                 xWasPressed = false;
@@ -95,7 +96,7 @@ public class NewTeleOp extends LinearOpMode {
 
             if(gamepad2.y && !yWasPressed){
                 yWasPressed = true;
-                leftGrab.toggleBig();
+                rightGrab.toggleBig();
             }
             if(!gamepad2.y){
                 yWasPressed = false;
