@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
 import org.firstinspires.ftc.teamcode.subsystems.Hook;
 import org.firstinspires.ftc.teamcode.subsystems.Intake;
 import org.firstinspires.ftc.teamcode.subsystems.LiftExt;
-
+import org.firstinspires.ftc.teamcode.subsystems.LeftGrab;
 
 
 @TeleOp(name="New TeleOp",group="teleop")
@@ -20,12 +20,14 @@ public class NewTeleOp extends LinearOpMode {
     private DriveTrain dt;
     private Hook hook;
     private Intake intake;
+    private LeftGrab leftGrab;
     private LiftExt lift;
 
-    private boolean hookIsClosed = false;
-    private boolean clawIsClosed = false;
+
     private boolean aWasPressed = false;
     private boolean bWasPressed = false;
+    private boolean xWasPressed = false;
+    private boolean yWasPressed = false;
 
 
     @Override
@@ -36,11 +38,14 @@ public class NewTeleOp extends LinearOpMode {
         dt = new DriveTrain(hardwareMap);
         intake = new Intake(this);
         lift = new LiftExt(hardwareMap);
+        leftGrab = new LeftGrab(hardwareMap);
 
         double multiplier=0.5;
         waitForStart();
 
         while (opModeIsActive()) {
+
+
 
             if(gamepad1.right_bumper){
                 multiplier = 1;
@@ -69,14 +74,31 @@ public class NewTeleOp extends LinearOpMode {
                 aWasPressed = false;
             }
 
-            // claw
-
             if(gamepad2.b && !bWasPressed){
                 bWasPressed = true;
                 claw.toggle();
             }
             if(!gamepad2.b){
                 bWasPressed = false;
+            }
+
+            // claw
+
+            if(gamepad2.x && !xWasPressed){
+                xWasPressed = true;
+                leftGrab.toggleSmall();
+            }
+            if(!gamepad2.x){
+                xWasPressed = false;
+            }
+
+
+            if(gamepad2.y && !yWasPressed){
+                yWasPressed = true;
+                leftGrab.toggleBig();
+            }
+            if(!gamepad2.y){
+                yWasPressed = false;
             }
 
             claw.repeat();
