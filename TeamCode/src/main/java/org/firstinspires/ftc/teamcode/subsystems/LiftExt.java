@@ -15,6 +15,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.openftc.revextensions2.ExpansionHubEx;
 
@@ -46,7 +47,7 @@ public class LiftExt {
 
     private PIDFController controller;
     private DcMotorEx lift;
-    public CRServo slide;
+    public Servo crank;
     private ExpansionHubEx hub;
     private MotionProfile profile;
     private NanoClock clock = NanoClock.system();
@@ -59,7 +60,7 @@ public class LiftExt {
         hub = hardwareMap.get(ExpansionHubEx.class,"Expansion Hub 2");
 
         lift = hardwareMap.get(DcMotorEx.class, "verticalLift");
-        slide = hardwareMap.get(CRServo.class, "liftSlide");
+        crank = hardwareMap.get(Servo.class, "crank");
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -120,12 +121,11 @@ public class LiftExt {
     }
 
     public void setPower(double power){
-            lift.setPower(power + GRAVITY_FF);
+        lift.setPower(power + GRAVITY_FF);
     }
 
-    public void setSlidePower(double power){
-        slide.setPower(power);
-
+    public void setCrankPos(double position){
+        crank.setPosition(position);
     }
 
     public void setMode(DcMotor.RunMode mode){
@@ -144,9 +144,15 @@ public class LiftExt {
         return rpm * 2 * Math.PI * SPOOL_RADIUS;
     }
 
-
-
     public void resetHeight(){
         offset = lift.getCurrentPosition();
+    }
+
+    public void extend() {
+        crank.setPosition(0);
+    }
+
+    public void retract() {
+        crank.setPosition(1);
     }
 }
