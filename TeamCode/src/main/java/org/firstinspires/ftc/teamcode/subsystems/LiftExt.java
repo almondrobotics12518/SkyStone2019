@@ -31,6 +31,8 @@ public class LiftExt {
 
     public static double LIFT_STAGES = 1;
 
+    public static boolean isExtended = false;
+
     public static double maxPos = 36;
     public static double maxVel = 15;
     public static double maxAccel = 30;
@@ -70,10 +72,11 @@ public class LiftExt {
         ));
 
         //lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        lift.setDirection(DcMotorSimple.Direction.REVERSE);
 
         controller = new PIDFController(PID,kV,kA,kStatic);
         offset = lift.getCurrentPosition();
+
+        retract();
 
         lastTimeStamp = clock.seconds();
     }
@@ -154,5 +157,15 @@ public class LiftExt {
 
     public void retract() {
         crank.setPosition(1);
+    }
+
+    public void toggleCrank(){
+        if(isExtended){
+            retract();
+            isExtended = false;
+        } else {
+            extend();
+            isExtended = true;
+        }
     }
 }

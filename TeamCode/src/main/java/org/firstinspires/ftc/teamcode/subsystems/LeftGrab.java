@@ -11,11 +11,11 @@ public class LeftGrab {
     private Servo leftBig;
     private Servo leftSmall;
 
-    private double OPEN_POS = 0.5; // middle
-    private double CLOSE_POS = .8;
+    private double OPEN_POS = 0.2; // middle
+    private double CLOSE_POS = .6;
 
     private double RETRACT_POS = 0.5; // middle
-    private double EXTEND_POS = .8;
+    private double EXTEND_POS = 0.15;
 
 
     public LeftGrab(HardwareMap hardwareMap){
