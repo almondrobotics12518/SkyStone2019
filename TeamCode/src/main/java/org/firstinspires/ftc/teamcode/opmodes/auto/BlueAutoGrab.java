@@ -77,7 +77,7 @@ public class BlueAutoGrab extends LinearOpMode {
                 .build());
         update();
 
-        rightGrab.setBigPosition(0.95);
+        rightGrab.extend();
         sleep(700);
         rightGrab.close();
         sleep(500);
@@ -90,7 +90,7 @@ public class BlueAutoGrab extends LinearOpMode {
                 .reverse()
                 .splineTo(new Pose2d(-12,40,Math.toRadians(180)),new ConstantInterpolator(Math.PI))
                 .lineTo(new Vector2d(12,40))
-                .splineTo(new Pose2d(49,32.2,Math.toRadians(180)), new ConstantInterpolator(Math.PI))
+                .splineTo(new Pose2d(49,32,Math.toRadians(180)), new ConstantInterpolator(Math.PI))
                 .build());
 
         update();
@@ -125,7 +125,7 @@ public class BlueAutoGrab extends LinearOpMode {
 
         drive.followTrajectory(drive.trajectoryBuilder()
                 .lineTo(new Vector2d(-5,36),new ConstantInterpolator(Math.PI))
-                .splineTo(new Pose2d(-19-stonePosition*8-xOffset,32-yOffset,Math.PI),new ConstantInterpolator(Math.PI))
+                .splineTo(new Pose2d(-19-stonePosition*8-xOffset,33-yOffset,Math.PI),new ConstantInterpolator(Math.PI))
                 .build());
         update();
 

@@ -12,7 +12,7 @@ public class RightGrab {
     private Servo rightBig;
     private Servo rightSmall;
 
-    private double OPEN_POS = 0.7;// middle
+    private double OPEN_POS = 0.75;// middle
     private double CLOSE_POS = 0;
 
     private double RETRACT_POS = 0.35; // middle
