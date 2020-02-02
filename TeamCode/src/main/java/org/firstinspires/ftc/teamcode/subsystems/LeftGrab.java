@@ -15,7 +15,7 @@ public class LeftGrab {
     private double CLOSE_POS = .6;
 
     private double RETRACT_POS = 0.5; // middle
-    private double EXTEND_POS = 0.15;
+    private double EXTEND_POS = 0.05;
 
 
     public LeftGrab(HardwareMap hardwareMap){
@@ -63,6 +63,10 @@ public class LeftGrab {
             retract();
         }
 
+    }
+
+    public void setBigPosition(double position){
+        leftBig.setPosition(position);
     }
 
 

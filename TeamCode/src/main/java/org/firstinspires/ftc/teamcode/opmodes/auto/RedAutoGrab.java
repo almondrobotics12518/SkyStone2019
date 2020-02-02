@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes.auto;
 
 import com.acmerobotics.roadrunner.drive.Drive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
+import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -49,7 +50,7 @@ public class RedAutoGrab extends LinearOpMode {
 
         drive.followTrajectory(drive.trajectoryBuilder()
                 .reverse()
-                .splineTo(new Pose2d(-20,-32,0),new ConstantInterpolator(0))
+                .splineTo(new Pose2d(-20-(8*stonePosition),-32,0),new ConstantInterpolator(0))
                 .build());
         update();
 
@@ -57,8 +58,29 @@ public class RedAutoGrab extends LinearOpMode {
         sleep(500);
         leftGrab.close();
         sleep(500);
+        leftGrab.setBigPosition(0.4);
+        sleep(400);
+
+        drive.followTrajectory(drive.trajectoryBuilder()
+                .splineTo(new Pose2d(-10,-40,0),new ConstantInterpolator(0))
+                .lineTo(new Vector2d(10,-40),new ConstantInterpolator(0))
+                .splineTo(new Pose2d(49,-31,0),new ConstantInterpolator(0))
+                .build());
+        update();
+
+        leftGrab.extend();
+        sleep(500);
+        leftGrab.open();
+        sleep(500);
         leftGrab.retract();
         sleep(400);
+
+        drive.followTrajectory(drive.trajectoryBuilder()
+                .reverse()
+                .splineTo(new Pose2d(10,-40,0),new ConstantInterpolator(0))
+                .lineTo(new Vector2d(-10,-40), new ConstantInterpolator(0))
+                .splineTo(new Pose2d(-44-(8*stonePosition)),new ConstantInterpolator(0))
+                .build());
 
         while(!isStopRequested()){
 
