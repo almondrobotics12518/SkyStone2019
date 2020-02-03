@@ -23,6 +23,7 @@ public class NewTeleOp extends LinearOpMode {
     private Intake intake;
     private RightGrab rightGrab;
     private LiftExt lift;
+    private LeftGrab leftGrab;
 
 
     private boolean aWasPressed = false;
@@ -35,6 +36,7 @@ public class NewTeleOp extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
+        leftGrab = new LeftGrab(hardwareMap);
         claw = new Claw(hardwareMap);
         hook = new Hook(hardwareMap);
         dt = new DriveTrain(hardwareMap);
@@ -42,7 +44,8 @@ public class NewTeleOp extends LinearOpMode {
         lift = new LiftExt(hardwareMap);
         rightGrab = new RightGrab(hardwareMap);
 
-        double multiplier=0.5;
+        leftGrab.open();
+        leftGrab.retract();        double multiplier=0.5;
         waitForStart();
 
         while (opModeIsActive()) {
