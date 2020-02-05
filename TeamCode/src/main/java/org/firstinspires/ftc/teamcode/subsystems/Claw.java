@@ -10,7 +10,7 @@ public class Claw {
     private Servo claw;
 
     public static double OPEN_POS = 0.2;
-    public static double CLOSE_POS = .6;
+    public static double CLOSE_POS = 0.7;
     private boolean isClosed = false;
 
     public Claw(HardwareMap hardwareMap){

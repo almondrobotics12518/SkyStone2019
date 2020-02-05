@@ -73,7 +73,7 @@ public class BlueAutoGrab extends LinearOpMode {
         update();
 
         drive.followTrajectory(drive.trajectoryBuilder()
-                .lineTo(new Vector2d(-44-(stonePosition*8)-offset,33),new ConstantInterpolator(Math.PI))
+                .lineTo(new Vector2d(-44-(stonePosition*8)-offset,31.5),new ConstantInterpolator(Math.PI))
                 .build());
         update();
 
@@ -112,7 +112,7 @@ public class BlueAutoGrab extends LinearOpMode {
             yOffset = 0;
         }
         if(stonePosition == 2){
-            yOffset = 0;
+            yOffset = -0.4;
         }
 
         double xOffset = 0;
@@ -125,7 +125,7 @@ public class BlueAutoGrab extends LinearOpMode {
 
         drive.followTrajectory(drive.trajectoryBuilder()
                 .lineTo(new Vector2d(-5,36),new ConstantInterpolator(Math.PI))
-                .splineTo(new Pose2d(-19-stonePosition*8-xOffset,33-yOffset,Math.PI),new ConstantInterpolator(Math.PI))
+                .splineTo(new Pose2d(-19-stonePosition*8-xOffset,30.8-yOffset,Math.PI),new ConstantInterpolator(Math.PI))
                 .build());
         update();
 

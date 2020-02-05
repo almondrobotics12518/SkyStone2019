@@ -84,11 +84,20 @@ public class RedAutoGrab extends LinearOpMode {
         leftGrab.retract();
         sleep(300);
 
+
+        double offset = 0;
+        if(stonePosition == 1){
+            offset = 1;
+        }
+        if(stonePosition == 2){
+            offset = 1;
+        }
+
         drive.followTrajectory(drive.trajectoryBuilder()
                 .reverse()
                 .splineTo(new Pose2d(10,-38,0),new ConstantInterpolator(0))
                 .lineTo(new Vector2d(-10,-38), new ConstantInterpolator(0))
-                .splineTo(new Pose2d(-44-(8*stonePosition),-30.5),new ConstantInterpolator(0))
+                .splineTo(new Pose2d(-44-(8*stonePosition),-30-offset),new ConstantInterpolator(0))
                 .build());
         update();
 
@@ -114,6 +123,7 @@ public class RedAutoGrab extends LinearOpMode {
         sleep(300);
 
         drive.followTrajectory(drive.trajectoryBuilder()
+                .reverse()
                 .splineTo(new Pose2d(12,-34.5,0),new ConstantInterpolator(0))
                 .lineTo(new Vector2d(6,-34.5), new ConstantInterpolator(0))
                 .build());
