@@ -24,6 +24,7 @@ public class RightGrab {
         rightSmall = hardwareMap.servo.get("rightSmall");
         rightBig = hardwareMap.servo.get("rightBig");
 
+        retract();
         open();
 
 

@@ -22,6 +22,9 @@ import org.openftc.revextensions2.ExpansionHubEx;
 @Config
 public class LiftExt {
 
+    public static double RETRACT_POS = 1;
+    public static double EXTEND_POS = 0.5;
+
     public static PIDCoefficients VELOCITY_PID = new PIDCoefficients(25,0,1);
     public static PIDCoefficients PID = new PIDCoefficients(0.2,0,0.02);
     public static double MAX_RPM = 312;
@@ -152,11 +155,11 @@ public class LiftExt {
     }
 
     public void extend() {
-        crank.setPosition(0);
+        crank.setPosition(EXTEND_POS);
     }
 
     public void retract() {
-        crank.setPosition(1);
+        crank.setPosition(RETRACT_POS);
     }
 
     public void toggleCrank(){

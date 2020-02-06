@@ -23,6 +23,7 @@ public class LeftGrab {
         leftSmall = hardwareMap.servo.get("leftSmall");
         leftBig = hardwareMap.servo.get("leftBig");
 
+        retract();
         open();
 
 
@@ -68,6 +69,7 @@ public class LeftGrab {
     public void setBigPosition(double position){
         leftBig.setPosition(position);
     }
+
 
 
 

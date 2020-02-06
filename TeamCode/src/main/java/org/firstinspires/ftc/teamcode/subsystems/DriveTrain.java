@@ -73,6 +73,14 @@ public class DriveTrain extends SampleMecanumDrive {
         setPIDCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, VELOCITY_PID);
     }
 
+    public void setRunMode(DcMotor.RunMode mode){
+        for (ExpansionHubMotor motor : motors) {
+
+            motor.setMode(mode);
+            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        }
+    }
+
     @Override
     public PIDCoefficients getPIDCoefficients(DcMotor.RunMode runMode) {
         PIDFCoefficients coefficients = leftFront.getPIDFCoefficients(runMode);

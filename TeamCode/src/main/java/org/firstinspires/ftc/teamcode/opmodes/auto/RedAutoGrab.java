@@ -4,6 +4,8 @@ import com.acmerobotics.roadrunner.drive.Drive;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.acmerobotics.roadrunner.geometry.Vector2d;
 import com.acmerobotics.roadrunner.path.heading.ConstantInterpolator;
+import com.acmerobotics.roadrunner.path.heading.HeadingInterpolator;
+import com.acmerobotics.roadrunner.path.heading.LinearInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
@@ -67,7 +69,7 @@ public class RedAutoGrab extends LinearOpMode {
         sleep(400);
         leftGrab.close();
         sleep(400);
-        leftGrab.setBigPosition(0.4);
+        leftGrab.setBigPosition(0.35);
         sleep(300);
 
         drive.followTrajectory(drive.trajectoryBuilder()
@@ -105,7 +107,7 @@ public class RedAutoGrab extends LinearOpMode {
         sleep(400);
         leftGrab.close();
         sleep(400);
-        leftGrab.setBigPosition(0.4);
+        leftGrab.setBigPosition(0.35);
         sleep(300);
 
         drive.followTrajectory(drive.trajectoryBuilder()
@@ -120,7 +122,7 @@ public class RedAutoGrab extends LinearOpMode {
         leftGrab.open();
         sleep(400);
         leftGrab.retract();
-        sleep(300);
+        sleep(200);
 
         drive.followTrajectory(drive.trajectoryBuilder()
                 .reverse()

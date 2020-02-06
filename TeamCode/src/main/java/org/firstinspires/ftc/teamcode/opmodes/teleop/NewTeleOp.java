@@ -4,6 +4,7 @@ package org.firstinspires.ftc.teamcode.opmodes.teleop;
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.subsystems.Claw;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
@@ -26,6 +27,8 @@ public class NewTeleOp extends LinearOpMode {
     private LeftGrab leftGrab;
 
 
+    private boolean x2WasPressed = false;
+    private boolean y2WasPressed = false;
     private boolean aWasPressed = false;
     private boolean bWasPressed = false;
     private boolean xWasPressed = false;
@@ -44,8 +47,10 @@ public class NewTeleOp extends LinearOpMode {
         lift = new LiftExt(hardwareMap);
         rightGrab = new RightGrab(hardwareMap);
 
+
         leftGrab.open();
-        leftGrab.retract();        double multiplier=0.5;
+        leftGrab.retract();
+        double multiplier=0.5;
         waitForStart();
 
         while (opModeIsActive()) {
@@ -59,7 +64,7 @@ public class NewTeleOp extends LinearOpMode {
             }
 
             // drivetrain
-            dt.setDrivePower(new Pose2d(gamepad1.left_stick_y*multiplier, gamepad1.left_stick_x*multiplier, -gamepad1.right_stick_x * 0.7 * multiplier));
+            dt.setDrivePower(new Pose2d(gamepad1.left_stick_y*multiplier, gamepad1.left_stick_x*multiplier, -gamepad1.right_stick_x * 0.85 * multiplier));
 
             // slide
 
@@ -71,11 +76,11 @@ public class NewTeleOp extends LinearOpMode {
             intake.setPower(gamepad2.right_trigger-gamepad2.left_trigger);
 
             // hook
-            if(gamepad1.a && !aWasPressed){
+            if(gamepad1.left_bumper && !aWasPressed){
                 aWasPressed = true;
                 hook.toggle();
             }
-            if(!gamepad1.a){
+            if(!gamepad1.left_bumper){
                 aWasPressed = false;
             }
 
@@ -113,6 +118,24 @@ public class NewTeleOp extends LinearOpMode {
             if(!gamepad2.a){
                 a2WasPressed = false;
             }
+
+            if(gamepad1.x && !x2WasPressed){
+                x2WasPressed = true;
+                leftGrab.toggleSmall();
+            }
+            if(!gamepad1.x){
+                x2WasPressed = false;
+            }
+
+            if(gamepad1.y && !y2WasPressed){
+                y2WasPressed = true;
+                leftGrab.toggleBig();
+            }
+            if(!gamepad1.y){
+                y2WasPressed = false;
+            }
+
+
 
             claw.repeat();
 
