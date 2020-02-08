@@ -8,6 +8,7 @@ import com.acmerobotics.roadrunner.path.heading.HeadingInterpolator;
 import com.acmerobotics.roadrunner.path.heading.LinearInterpolator;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.vuforia.CameraDevice;
 
 import org.firstinspires.ftc.teamcode.subsystems.Detector;
 import org.firstinspires.ftc.teamcode.subsystems.DriveTrain;
@@ -37,14 +38,13 @@ public class RedAutoGrab extends LinearOpMode {
         leftGrab.retract();
         leftGrab.open();
 
-        drive.setPoseEstimate(new Pose2d(-39, -62, Math.toRadians(90)));
+        drive.setPoseEstimate(new Pose2d(-40, -62, Math.toRadians(90)));
         detector.startStreaming();
-        detector.phoneCam.pauseViewport();
         while(!isStarted()&&!isStopRequested()){
             double position = detector.detector.foundRectangle().x+detector.detector.foundRectangle().width/2;
-            if(position<40){
+            if(position<70){
                 stonePosition = 2;
-            } else if(position<100){
+            } else if(position<140){
                 stonePosition = 1;
             } else {
                 stonePosition = 0;
